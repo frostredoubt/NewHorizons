@@ -1,0 +1,3 @@
+# Ensure that the VS stuff keeps CRLF line endings, just in case
+*.dll binary
+*.dll.meta eol=crlf
