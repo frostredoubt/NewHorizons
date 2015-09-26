@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class PlayerCamera : MonoBehaviour
+public class PlayerCamera : NetworkBehaviour
 {
-
     /// <summary>
     /// The sensitivity when pressing A-D and left-right on the keyboard.
     /// </summary>
@@ -43,25 +43,38 @@ public class PlayerCamera : MonoBehaviour
     /// <summary>
     /// The player camera object.
     /// </summary>
-    private Camera playerCamera;
+    public Camera playerCamera;
 
     /// <summary>
     /// The transform tag that is checked to determine whether or not an object is selectable.
     /// </summary>
     const string selectableTag = "Selectable";
 
-
     // Use this for initialization
+    [ClientCallback]
     private void Start()
     {
-        playerCamera = Camera.main;
+        if (!isLocalPlayer)
+        {
+            playerCamera.enabled = false;
+            Debug.Log("not using camera");
+        }
+        else
+        { //if I am the owner of this prefab
+            playerCamera.enabled = true;
+            Debug.Log("using camera");
+        }
+
         return;
 	}
 	
-    
 	// Update is called once per frame
+    [ClientCallback]
 	private void Update()
     {
+        if (!isLocalPlayer)
+            return;
+
         // Mouse directional inputs (mouse movement and scrollwheel)
         float mouseX = Input.GetAxis("Mouse X");
         float mouseY = Input.GetAxis("Mouse Y");
