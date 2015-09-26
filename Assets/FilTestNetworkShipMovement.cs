@@ -19,4 +19,9 @@ public class FilTestNetworkShipMovement : NetworkBehaviour
             transform.Translate(velocity);
         }
 	}
+
+    void OnCollisionEnter(Collision collision)
+    {
+        velocity = Vector3.zero;
+    }
 }
