@@ -9,9 +9,10 @@ public class CustomSliderScript : MonoBehaviour {
 	private int vectorIndex;
 
 	public BenPrimeTest_GameDirector director;
-	public int sliderDelta;
+	public float sliderDelta;
 	public RectTransform backgroundRectTransform;
 	public bool pitch, yaw, speed;
+	public Text numberText;
 
 	// Use this for initialization
 	void Start () {
@@ -23,7 +24,12 @@ public class CustomSliderScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (director && director.SelectedShip) {
+			//update the delta vector
 			director.SelectedShip.Velocity_delta[vectorIndex] = slider.value;
+
+			//display the number to our players
+			float velocityNumber = director.SelectedShip.Velocity_current[vectorIndex] + slider.value;
+			numberText.text = velocityNumber.ToString();
 		}
 	}
 
@@ -32,8 +38,10 @@ public class CustomSliderScript : MonoBehaviour {
 		slider.value = selectedShip.Velocity_delta[vectorIndex];
 
 		//set the height of the background of the slider (max - min)
-		backgroundRectTransform.sizeDelta = new Vector2(backgroundRectTransform.sizeDelta.x,
-		                                                (selectedShip.Max_velocity[vectorIndex] - selectedShip.Min_velocity[vectorIndex]) * sliderDelta);
+		//backgroundRectTransform.sizeDelta = new Vector2(backgroundRectTransform.sizeDelta.x,
+		//  (selectedShip.Max_velocity[vectorIndex] - selectedShip.Min_velocity[vectorIndex]) * sliderDelta);
+
+		sliderDelta = backgroundRectTransform.sizeDelta.y / (selectedShip.Max_velocity [vectorIndex] - selectedShip.Min_velocity [vectorIndex]);
 
 		//find how much we can move (basically the max/min delta, capped for overal max/min)
 		slider.minValue = -Mathf.Min(selectedShip.Velocity_current[vectorIndex] - selectedShip.Min_velocity[vectorIndex], selectedShip.Min_velocity_delta[vectorIndex]);
