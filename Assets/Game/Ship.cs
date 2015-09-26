@@ -35,6 +35,7 @@ public class Ship : MonoBehaviour
     Quaternion end_rotation;
 
     private bool shouldReset = false;
+    private bool do_resolve = false;
 
     // Use this for initialization
     void Start()
@@ -50,10 +51,12 @@ public class Ship : MonoBehaviour
         start_rotation = gameObject.transform.rotation;
         Vector3 unit = new Vector3(0, 1, 0);
         Vector3 target = Velocity_current.normalized;
+        target = start_rotation * target;
         Debug.Log(target);
         end_rotation = Quaternion.FromToRotation(unit, target);
 
         Resolve_time = update_units;
+        do_resolve = true;
     }
 
     // Update is called once per frame
@@ -73,10 +76,11 @@ public class Ship : MonoBehaviour
     void FixedUpdate()
     {
         float elapsed_time_fraction = (20 - Resolve_time) / 20;
-        if (Resolve_time > 0)
+        if (do_resolve)
         {
             gameObject.transform.Translate(Update_step);
-            --Resolve_time;
+            if (--Resolve_time < 0)
+                do_resolve = false;
 
             Quaternion step = Quaternion.Lerp(start_rotation, end_rotation, elapsed_time_fraction);
             gameObject.transform.rotation = step;
@@ -87,19 +91,16 @@ public class Ship : MonoBehaviour
             //Check for firing opportunity
 
             shouldReset = true;
-
-            //Check for firing opportunity
         }
         else
         {
-            Resolve_time = 0;
-
             //add the delta velocity and reset the delta for the next turn
             if (shouldReset)
             {
                 Velocity_current += Velocity_delta;
                 Velocity_delta = new Vector3(0, 0, 0);
                 shouldReset = false;
+                do_resolve = false;
             }
         }
     }
