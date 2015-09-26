@@ -206,11 +206,7 @@ Prefab:
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 165182, guid: 93b88bf78736e0941b77d7d770441b7a, type: 2}
-      propertyPath: m_TagString
-      value: MainCamera
-      objectReference: {fileID: 0}
+    m_Modifications: []
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 93b88bf78736e0941b77d7d770441b7a, type: 2}
   m_IsPrefabParent: 0
