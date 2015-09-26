@@ -46,14 +46,18 @@ public class Ship : MonoBehaviour
 
     void Start_resolution(uint update_units)
     {
-        Update_step = Velocity_current / update_units;
-
         start_rotation = gameObject.transform.rotation;
-        Vector3 unit = new Vector3(0, 1, 0);
-        Vector3 target = Velocity_current.normalized;
-        target = start_rotation * target;
-        Debug.Log(target);
-        end_rotation = Quaternion.FromToRotation(unit, target);
+
+        Update_step = start_rotation * Velocity_current / update_units;
+
+        Vector3 originalori = new Vector3(0, 1, 0);
+
+        Vector3 currentvecori = start_rotation * originalori;
+        Vector3 targetvecori = start_rotation * Velocity_current.normalized;
+
+        Quaternion delta_rotation = Quaternion.FromToRotation(currentvecori, targetvecori);
+
+        end_rotation = start_rotation * delta_rotation;
 
         Resolve_time = update_units;
         do_resolve = true;
@@ -78,7 +82,7 @@ public class Ship : MonoBehaviour
         float elapsed_time_fraction = (20 - Resolve_time) / 20;
         if (do_resolve)
         {
-            gameObject.transform.Translate(Update_step);
+            gameObject.transform.Translate(Update_step, Space.World);
             if (--Resolve_time < 0)
                 do_resolve = false;
 
