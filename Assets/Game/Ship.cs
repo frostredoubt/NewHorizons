@@ -31,29 +31,27 @@ public class Ship : MonoBehaviour
     float Resolve_time;
     Vector3 Update_step;
 
+    Quaternion start_rotation;
+    Quaternion end_rotation;
+
     // Use this for initialization
     void Start()
     {
         Momentum_ray = transform.FindChild("Momentum").gameObject;
         Vision_bubble = transform.FindChild("Vision").gameObject;
-        //Vision_bubble.SetActive(false);
     }
 
     void Start_resolution( uint update_units )
     {
-        Debug.Log("ship resolve " + update_units );
         Update_step = Velocity_current / update_units;
+
+        start_rotation = gameObject.transform.rotation;
+        Vector3 unit = new Vector3(0, 1, 0);
+        Vector3 target = Velocity_current.normalized;
+        Debug.Log(target);
+        end_rotation = Quaternion.FromToRotation(unit, target);
+
         Resolve_time = update_units;
-    }
-
-    void Selected()
-    {
-        Vision_bubble.SetActive(true);
-    }
-
-    void Deselect()
-    {
-        Vision_bubble.SetActive(false);
     }
 
     // Update is called once per frame
@@ -72,10 +70,14 @@ public class Ship : MonoBehaviour
 
     void FixedUpdate()
     {
+        float elapsed_time_fraction = (20 - Resolve_time) / 20;
         if (Resolve_time > 0)
         {
             gameObject.transform.Translate(Update_step);
             --Resolve_time;
+
+            Quaternion step = Quaternion.Lerp(start_rotation, end_rotation, elapsed_time_fraction);
+            gameObject.transform.rotation = step;
 
             //Check for new vision
             Vision_bubble.GetComponent<SphereCollider>();
