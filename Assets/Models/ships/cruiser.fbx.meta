@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: bf58daef11a17d64bbd062a6d9044a7c
-timeCreated: 1443299955
+guid: 67161635d14440b409b2b0e33bd334e6
+timeCreated: 1443300594
 licenseType: Free
 ModelImporter:
   serializedVersion: 18
@@ -9,9 +9,7 @@ ModelImporter:
     400000: //RootNode
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Torus_001
-    7400000: Default Take
-    9500000: //RootNode
+    4300000: Cylinder.001
   materials:
     importMaterials: 1
     materialName: 0
@@ -70,7 +68,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
-  animationType: 2
+  animationType: 0
   humanoidOversampling: 1
   additionalBone: 0
   userData: 
