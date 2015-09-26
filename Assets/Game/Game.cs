@@ -54,9 +54,9 @@ public class Game : MonoBehaviour {
     {
         Debug.Log("Resolve started");
         foreach( GameObject obj in My_ships )
-            obj.GetComponent("Ship").SendMessage("Start_resolution", 10U );
+            obj.GetComponent("Ship").SendMessage("Start_resolution", 20U );
         foreach (GameObject obj in Enemy_shipsp )
-            obj.GetComponent("Ship").SendMessage("Start_resolution", 10U );
+            obj.GetComponent("Ship").SendMessage("Start_resolution", 20U );
     }
 	
 	// Update is called once per frame

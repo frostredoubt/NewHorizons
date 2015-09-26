@@ -16,6 +16,7 @@ public class CustomNetworkManager : NetworkManager {
         Debug.Log("Player " + conn.connectionId + " connected.");
 
         var player = (GameObject)GameObject.Instantiate(playerPrefab, startPositions[0].position, Quaternion.identity);
+        player.transform.rotation = startPositions[0].rotation;
         NetworkServer.AddPlayerForConnection(conn, player, playerControllerId);
     }
 

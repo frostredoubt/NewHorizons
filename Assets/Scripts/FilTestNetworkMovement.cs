@@ -31,7 +31,7 @@ public class FilTestNetworkMovement : NetworkBehaviour
     void UpdateClientGame()
     {
         if (Input.GetKeyDown("w"))
-            transform.Translate(Vector3.forward * 0.05f);
+           transform.Translate(Vector3.forward * 0.05f);
     }
 
     void UpdateClientLobby()

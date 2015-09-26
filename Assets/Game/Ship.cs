@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using System.Collections;
 
 public class Ship : MonoBehaviour
@@ -10,11 +10,11 @@ public class Ship : MonoBehaviour
         KING
     };
 
-    
+
     public bool Weapons_enabled = false;
     public float Scout_range = 1;
     public float Weapon_range = 1;
-    
+
     public Type Ship_type;
 
     //Max values
@@ -31,31 +31,32 @@ public class Ship : MonoBehaviour
     float Resolve_time;
     Vector3 Update_step;
 
-	private bool shouldReset = false;
+    Quaternion start_rotation;
+    Quaternion end_rotation;
+
+    private bool shouldReset = false;
+    private bool do_resolve = false;
 
     // Use this for initialization
     void Start()
     {
         Momentum_ray = transform.FindChild("Momentum").gameObject;
         Vision_bubble = transform.FindChild("Vision").gameObject;
-        //Vision_bubble.SetActive(false);
     }
 
-    void Start_resolution( uint update_units )
+    void Start_resolution(uint update_units)
     {
-        Debug.Log("ship resolve " + update_units );
         Update_step = Velocity_current / update_units;
+
+        start_rotation = gameObject.transform.rotation;
+        Vector3 unit = new Vector3(0, 1, 0);
+        Vector3 target = Velocity_current.normalized;
+        target = start_rotation * target;
+        Debug.Log(target);
+        end_rotation = Quaternion.FromToRotation(unit, target);
+
         Resolve_time = update_units;
-    }
-
-    void Selected()
-    {
-        Vision_bubble.SetActive(true);
-    }
-
-    void Deselect()
-    {
-        Vision_bubble.SetActive(false);
+        do_resolve = true;
     }
 
     // Update is called once per frame
@@ -74,28 +75,33 @@ public class Ship : MonoBehaviour
 
     void FixedUpdate()
     {
-        if (Resolve_time > 0)
+        float elapsed_time_fraction = (20 - Resolve_time) / 20;
+        if (do_resolve)
         {
             gameObject.transform.Translate(Update_step);
-            --Resolve_time;
+            if (--Resolve_time < 0)
+                do_resolve = false;
+
+            Quaternion step = Quaternion.Lerp(start_rotation, end_rotation, elapsed_time_fraction);
+            gameObject.transform.rotation = step;
 
             //Check for new vision
             Vision_bubble.GetComponent<SphereCollider>();
 
             //Check for firing opportunity
 
-			shouldReset = true;
+            shouldReset = true;
         }
         else
         {
-			Resolve_time = 0;
-
-			//add the delta velocity and reset the delta for the next turn
-			if (shouldReset) {
-				Velocity_current += Velocity_delta;
-				Velocity_delta = new Vector3(0,0,0);
-				shouldReset = false;
-			}
+            //add the delta velocity and reset the delta for the next turn
+            if (shouldReset)
+            {
+                Velocity_current += Velocity_delta;
+                Velocity_delta = new Vector3(0, 0, 0);
+                shouldReset = false;
+                do_resolve = false;
+            }
         }
     }
 }
