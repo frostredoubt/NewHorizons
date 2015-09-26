@@ -31,6 +31,8 @@ public class Ship : MonoBehaviour
     float Resolve_time;
     Vector3 Update_step;
 
+	private bool shouldReset = false;
+
     // Use this for initialization
     void Start()
     {
@@ -81,10 +83,19 @@ public class Ship : MonoBehaviour
             Vision_bubble.GetComponent<SphereCollider>();
 
             //Check for firing opportunity
+
+			shouldReset = true;
         }
         else
         {
-            Resolve_time = 0;
+			Resolve_time = 0;
+
+			//add the delta velocity and reset the delta for the next turn
+			if (shouldReset) {
+				Velocity_current += Velocity_delta;
+				Velocity_delta = new Vector3(0,0,0);
+				shouldReset = false;
+			}
         }
     }
 }
