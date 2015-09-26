@@ -14,6 +14,7 @@
 *.pidb
 *.booproj
 *.exe
+*.pdb
 
 # Unity bin data
 *_Data*
