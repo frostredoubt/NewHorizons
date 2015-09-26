@@ -25,7 +25,7 @@ public class BenPrimeTest_PropertiesStruct : MonoBehaviour, IPointerClickHandler
 	public BenPrimeTest_GameDirector director;
 	
 	public void OnPointerClick (PointerEventData eventData) {
-		director.setSelectedShip(this);
+		//director.setSelectedShip(this);
 	}
 
 	public void newTurn() {

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using System.Collections;
 
 public class Ship : MonoBehaviour
@@ -10,11 +10,11 @@ public class Ship : MonoBehaviour
         KING
     };
 
-    
+
     public bool Weapons_enabled = false;
     public float Scout_range = 1;
     public float Weapon_range = 1;
-    
+
     public Type Ship_type;
 
     //Max values
@@ -34,6 +34,8 @@ public class Ship : MonoBehaviour
     Quaternion start_rotation;
     Quaternion end_rotation;
 
+    private bool shouldReset = false;
+
     // Use this for initialization
     void Start()
     {
@@ -41,7 +43,7 @@ public class Ship : MonoBehaviour
         Vision_bubble = transform.FindChild("Vision").gameObject;
     }
 
-    void Start_resolution( uint update_units )
+    void Start_resolution(uint update_units)
     {
         Update_step = Velocity_current / update_units;
 
@@ -83,10 +85,22 @@ public class Ship : MonoBehaviour
             Vision_bubble.GetComponent<SphereCollider>();
 
             //Check for firing opportunity
+
+            shouldReset = true;
+
+            //Check for firing opportunity
         }
         else
         {
             Resolve_time = 0;
+
+            //add the delta velocity and reset the delta for the next turn
+            if (shouldReset)
+            {
+                Velocity_current += Velocity_delta;
+                Velocity_delta = new Vector3(0, 0, 0);
+                shouldReset = false;
+            }
         }
     }
 }
