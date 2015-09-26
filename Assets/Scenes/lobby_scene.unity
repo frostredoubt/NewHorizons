@@ -85,29 +85,29 @@ NavMeshSettings:
     cellSize: .166666672
     manualCellSize: 0
   m_NavMeshData: {fileID: 0}
---- !u!1 &704246406
+--- !u!1 &754500860
 GameObject:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   serializedVersion: 4
   m_Component:
-  - 4: {fileID: 704246408}
-  - 114: {fileID: 704246407}
-  - 114: {fileID: 704246409}
+  - 4: {fileID: 754500862}
+  - 114: {fileID: 754500861}
+  - 114: {fileID: 754500864}
   m_Layer: 0
-  m_Name: NetworkManager
+  m_Name: CustomNetworkMgr
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &704246407
+--- !u!114 &754500861
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 704246406}
+  m_GameObject: {fileID: 754500860}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bde7af4f032712541ba058e9be9860ec, type: 3}
@@ -128,7 +128,9 @@ MonoBehaviour:
   m_PlayerSpawnMethod: 0
   m_OfflineScene: lobby_scene
   m_OnlineScene: network_play_scene
-  m_SpawnPrefabs: []
+  m_SpawnPrefabs:
+  - {fileID: 168980, guid: a6e66e50841423b409612f31839d12b3, type: 2}
+  - {fileID: 141958, guid: 5b1f52a7ddc3d124298497a8a839d4fd, type: 2}
   m_CustomConfig: 0
   m_MaxConnections: 4
   m_ConnectionConfig:
@@ -160,24 +162,24 @@ MonoBehaviour:
   matchMaker: {fileID: 0}
   matchName: default
   matchSize: 4
---- !u!4 &704246408
+--- !u!4 &754500862
 Transform:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 704246406}
+  m_GameObject: {fileID: 754500860}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -.206614494, y: -9.53674316e-07, z: 1.44221687}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 0
---- !u!114 &704246409
+  m_RootOrder: 2
+--- !u!114 &754500864
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 704246406}
+  m_GameObject: {fileID: 754500860}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 227461547, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
@@ -272,7 +274,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
 --- !u!1 &1911490510
 GameObject:
   m_ObjectHideFlags: 0
@@ -332,4 +334,4 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 1
