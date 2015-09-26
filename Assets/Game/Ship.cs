@@ -10,12 +10,21 @@ public class Ship : MonoBehaviour
         KING
     };
 
-    public Vector3 momentum = new Vector3(0, 0, 0);
+    
     public bool Weapons_enabled = false;
     public float Scout_range = 1;
     public float Weapon_range = 1;
-    public Vector3 Direction_input;
+    
     public Type Ship_type;
+
+    //Max values
+    // (Speed, Pitch, Yaw)
+    public Vector3 Velocity_current = new Vector3(0, 0, 0);
+    public Vector3 Velocity_delta;
+    public Vector3 Max_velocity;
+    public Vector3 Min_velocity;
+    public Vector3 Max_velocity_delta;
+    public Vector3 Min_velocity_delta;
 
     public GameObject Momentum_ray;
     public GameObject Vision_bubble;
@@ -33,7 +42,7 @@ public class Ship : MonoBehaviour
     void Start_resolution( uint update_units )
     {
         Debug.Log("ship resolve " + update_units );
-        Update_step = momentum / update_units;
+        Update_step = Velocity_current / update_units;
         Resolve_time = update_units;
     }
 
@@ -51,14 +60,14 @@ public class Ship : MonoBehaviour
     void Update()
     {
         if (Input.GetKeyDown("[1]"))
-            momentum += (Input.GetKey("left shift")) ? Vector3.right : Vector3.left;
+            Velocity_current += (Input.GetKey("left shift")) ? Vector3.right : Vector3.left;
         else if (Input.GetKeyDown("[2]"))
-            momentum += (Input.GetKey("left shift")) ? Vector3.up : Vector3.down;
+            Velocity_current += (Input.GetKey("left shift")) ? Vector3.up : Vector3.down;
         else if (Input.GetKeyDown("[3]"))
-            momentum += (Input.GetKey("left shift")) ? Vector3.forward : Vector3.back;
+            Velocity_current += (Input.GetKey("left shift")) ? Vector3.forward : Vector3.back;
 
         LineRenderer lr = Momentum_ray.GetComponent<LineRenderer>();
-        lr.SetPosition(1, momentum);
+        lr.SetPosition(1, Velocity_current);
     }
 
     void FixedUpdate()
