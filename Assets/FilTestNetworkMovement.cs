@@ -13,19 +13,36 @@ public class FilTestNetworkMovement : NetworkBehaviour
 	// Update is called once per frame
 	void Update () {
         if (NetworkClient.active)
-            UpdateClient();
+        {
+            if (!isLocalPlayer)
+                return;
+
+            if (GameManagerScript.singleton.GameStarted())
+            {
+                UpdateClientGame();
+            }
+            else
+            {
+                UpdateClientLobby();
+            }
+        }
 	}
 
-    void UpdateClient()
+    void UpdateClientGame()
     {
-        if (!isLocalPlayer)
-        {
-            return;
-        }
-
         if (Input.GetKeyDown("w"))
-        {
             transform.Translate(Vector3.forward * 0.05f);
-        }
+    }
+
+    void UpdateClientLobby()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+            CmdStartGame();
+    }
+
+    [Command]
+    void CmdStartGame()
+    {
+        GameManagerScript.singleton.StartGame();
     }
 }
