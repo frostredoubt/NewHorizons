@@ -112,7 +112,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 5
 --- !u!114 &88159920
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -238,30 +238,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 5
---- !u!1001 &665375140
-Prefab:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 11449280, guid: 93b88bf78736e0941b77d7d770441b7a, type: 2}
-      propertyPath: playerCamera
-      value: 
-      objectReference: {fileID: 665375141}
-    - target: {fileID: 165182, guid: 93b88bf78736e0941b77d7d770441b7a, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_ParentPrefab: {fileID: 100100000, guid: 93b88bf78736e0941b77d7d770441b7a, type: 2}
-  m_IsPrefabParent: 0
---- !u!20 &665375141 stripped
-Camera:
-  m_PrefabParentObject: {fileID: 2078236, guid: 93b88bf78736e0941b77d7d770441b7a,
-    type: 2}
-  m_PrefabInternal: {fileID: 665375140}
+  m_RootOrder: 4
 --- !u!1 &1880995412
 GameObject:
   m_ObjectHideFlags: 0
@@ -321,7 +298,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 4
+  m_RootOrder: 3
 --- !u!1001 &2001099012
 Prefab:
   m_ObjectHideFlags: 0

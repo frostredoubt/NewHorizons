@@ -226,12 +226,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 96df51a819c996b4caede857cdc6389e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  momentum: {x: 0, y: 0, z: 0}
   Weapons_enabled: 0
   Scout_range: 1
   Weapon_range: 1
-  Direction_input: {x: 0, y: 0, z: 0}
   Ship_type: 0
+  Velocity_current: {x: 0, y: 0, z: 0}
+  Velocity_delta: {x: 0, y: 0, z: 0}
+  Max_velocity: {x: 0, y: 0, z: 0}
+  Min_velocity: {x: 0, y: 0, z: 0}
+  Max_velocity_delta: {x: 0, y: 0, z: 0}
+  Min_velocity_delta: {x: 0, y: 0, z: 0}
   Momentum_ray: {fileID: 100000, guid: 66bac40d68b1fae4f9b7e84070e5afec, type: 3}
   Vision_bubble: {fileID: 0}
 --- !u!114 &11457550
@@ -375,6 +379,10 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_UseLightProbes
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_UseWorldSpace
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
