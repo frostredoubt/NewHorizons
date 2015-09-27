@@ -8,25 +8,38 @@ public class PlayerCamera : NetworkBehaviour
     /// Sensitivities used for keyboard movement.
     /// </summary>
     [SerializeField]
-    private Vector3 keyboardMovementSensitivity = new Vector3(0.25f, 0.0f, 0.25f);
+    private Vector3 keyboardMovementSensitivity = new Vector3(20.0f, 0.0f, 20.0f);
 
     /// <summary>
     /// Sensitivities used for keyboard rotation.
     /// </summary>
     [SerializeField]
-    private Vector3 keyboardRotationSensitivity = new Vector3(0.0f, 0.0f, 2.5f);
+    private Vector3 keyboardRotationSensitivity = new Vector3(0.0f, 0.0f, 100.0f);
 
     /// <summary>
     /// Sensitivities used for mouse rotation.
     /// </summary>
     [SerializeField]
-    private Vector3 mouseRotationSensitivity = new Vector3(1.0f, 1.0f, 0.0f);
+    private Vector3 mouseRotationSensitivity = new Vector3(100.0f, 100.0f, 0.0f);
 
     /// <summary>
     /// The distance to snap to when selecting an object.
     /// </summary>
     [SerializeField]
-    private float objectSelectSnapDistance = 10.0f;
+    private float objectSelectDistance = 10.0f;
+
+    /// <summary>
+    /// The speed to use when zooming in on a selected object.
+    /// </summary>
+    [SerializeField]
+    private float objectSelectMoveSpeed = 5.0f;
+
+    /// <summary>
+    /// The speed to use when rotating towards a selected object.
+    /// </summary>
+    [SerializeField]
+    private float objectSelectRotationSpeed = 5.0f;
+
 
     /// <summary>
     /// The player camera object.
@@ -39,6 +52,8 @@ public class PlayerCamera : NetworkBehaviour
     private bool mouseLeftPress, mouseMiddlePress, mouseRightPress;
     private bool mouseLeftHold, mouseMiddleHold, mouseRightHold;
     private bool mouseLeftRelease, mouseMiddleRelease, mouseRightRelease;
+    private bool movementLocked; // Whether or not movement is locked by an in-progress object selection
+    private Transform lastSelectedObject; // Any object that is currently selected to move towards
 
     /// <summary>
     /// The transform tag that is checked to determine whether or not an object is selectable.
@@ -54,6 +69,8 @@ public class PlayerCamera : NetworkBehaviour
     {
         playerCamera = GetComponent<Camera>();
         playerCamera.enabled = isLocalPlayer;
+        movementLocked = false;
+        lastSelectedObject = null;
         return;
 	}
 
@@ -82,6 +99,11 @@ public class PlayerCamera : NetworkBehaviour
     /// </summary>
     private void GetInput()
     {
+        if (movementLocked) // If movement is locked, there's no need to check input
+        {
+            return;
+        }
+
         // Mouse button press statuses
         mouseLeftPress = Input.GetMouseButtonDown(0);
         mouseMiddlePress = Input.GetMouseButtonDown(2);
@@ -112,16 +134,18 @@ public class PlayerCamera : NetworkBehaviour
     /// </summary>
     private void CheckForObjectSelect()
     {
+        if (movementLocked) // If we're in the process of zooming in on a selected object, disallow new selections
+        {
+            return;
+        }
+
         Ray ray = playerCamera.ScreenPointToRay(Input.mousePosition);
         RaycastHit hitInfo;
 
         if (SelectObject() && Physics.Raycast(ray, out hitInfo, playerCamera.farClipPlane))
         {
-            Transform selectable = hitInfo.transform.FindChild(selectableTag);
-            if (selectable != null)
-            {
-                transform.position = selectable.position - new Vector3(-objectSelectSnapDistance, 0.0f, 0.0f);
-            }
+            lastSelectedObject = hitInfo.transform.FindChild(selectableTag);
+            movementLocked = true;
         }
 
         return;
@@ -134,21 +158,43 @@ public class PlayerCamera : NetworkBehaviour
     /// <param name="movement">The movement vector to apply.</param>
     private void ApplyMovement()
     {
-        // Translate the camera's movement
-        Vector3 cameraTranslation = keyboardMovement;
-        cameraTranslation.Scale(keyboardMovementSensitivity);
-        transform.Translate(cameraTranslation);
-
-        // Rotate the camera's movement
-        Vector3 cameraRotation = keyboardRotation;
-        cameraRotation.Scale(keyboardRotationSensitivity);
-        if (TiltPanCamera())
+        if (movementLocked)
         {
-            Vector3 cameraMouseRotation = mouseRotation;
-            cameraMouseRotation.Scale(mouseRotationSensitivity);
-            cameraRotation += cameraMouseRotation;
+            if (lastSelectedObject == null) // Realistically this should never happen, but just in case...
+            {
+                movementLocked = false;
+                return;
+            }
+
+            // Rotate our object towards the selected object
+            Quaternion lastSelectedObjectRotation = transform.rotation;
+            transform.rotation = Quaternion.Slerp(transform.rotation,
+                Quaternion.LookRotation(lastSelectedObject.position - transform.position),
+                objectSelectRotationSpeed * Time.deltaTime);
+            
+            if (lastSelectedObjectRotation == transform.rotation) // Once we are finished rotating, unlock movement
+            {
+                movementLocked = false;
+            }
         }
-        transform.Rotate(cameraRotation);
+        else
+        {
+            // Translate the camera's movement
+            Vector3 cameraTranslation = keyboardMovement;
+            cameraTranslation.Scale(keyboardMovementSensitivity);
+            transform.Translate(Time.deltaTime * cameraTranslation);
+
+            // Rotate the camera's movement
+            Vector3 cameraRotation = keyboardRotation;
+            cameraRotation.Scale(keyboardRotationSensitivity);
+            if (TiltPanCamera())
+            {
+                Vector3 cameraMouseRotation = mouseRotation;
+                cameraMouseRotation.Scale(mouseRotationSensitivity);
+                cameraRotation += cameraMouseRotation;
+            }
+            transform.Rotate(Time.deltaTime * cameraRotation);
+        }
 
         return;
     }
