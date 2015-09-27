@@ -13,7 +13,7 @@ EditorBuildSettings:
     path: Assets/Scenes/lobby_scene.unity
   - enabled: 1
     path: Assets/Scenes/network_play_scene.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/ben_lobby_scene.unity
-  - enabled: 1
+  - enabled: 0
     path: Assets/ben_scene.unity

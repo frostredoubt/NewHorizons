@@ -29,7 +29,7 @@ public class PlayerShipController : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
 
-        f (!BenPrimeTest_GameDirector.singleton)
+        if (!BenPrimeTest_GameDirector.singleton)
         {
             return;
         }
