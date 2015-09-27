@@ -103,8 +103,8 @@ public class Ship : MonoBehaviour
             if (--Resolve_time < 0)
                 do_resolve = false;
 
-            //Quaternion step = Quaternion.Lerp(start_rotation, end_rotation, elapsed_time_fraction);
-            //gameObject.transform.rotation = step;
+            Quaternion step = Quaternion.Lerp(start_rotation, end_rotation, elapsed_time_fraction);
+            gameObject.transform.rotation = step;
 
             //Check for new vision
             Vision_bubble.GetComponent<SphereCollider>();
