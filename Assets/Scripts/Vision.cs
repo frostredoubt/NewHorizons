@@ -64,9 +64,8 @@ public class Vision : MonoBehaviour {
 
     void OnMouseEnter()
     {
-        /*Debug.Log("Test");
-        Ship s = gameObject.transform.parent.GetComponent("Ship") as Ship;
-        if (gameObject.name == "Model" && s.player ==  )
+        /*Ship s = gameObject.transform.parent.GetComponent("Ship") as Ship;
+        if (gameObject.name == "Model" && s.player == )
         {
             Vision_object.GetComponent<MeshRenderer>().enabled = true;
         }*/
