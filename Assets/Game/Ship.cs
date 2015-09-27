@@ -26,8 +26,10 @@ public class Ship : MonoBehaviour
     public Vector3 Max_velocity_delta;
     public Vector3 Min_velocity_delta;
 
+    public uint Player_id;
     public GameObject Momentum_ray;
     public GameObject Vision_bubble;
+    public GameObject Model;
     float Resolve_time;
     Vector3 Update_step;
 
@@ -42,6 +44,18 @@ public class Ship : MonoBehaviour
     {
         Momentum_ray = transform.FindChild("Momentum").gameObject;
         Vision_bubble = transform.FindChild("Vision").gameObject;
+        Model = transform.FindChild("Model").gameObject;
+    }
+
+    public void Set_model_visible( bool vis )
+    {
+        Model.GetComponent<MeshRenderer>().enabled = vis;
+    }
+
+    public void Set_all_visible( bool visibility )
+    {
+        foreach (Renderer r in GetComponentsInChildren<Renderer>())
+                r.enabled = visibility;
     }
 
     void Start_resolution(uint update_units)
@@ -58,6 +72,9 @@ public class Ship : MonoBehaviour
         Quaternion delta_rotation = Quaternion.FromToRotation(currentvecori, targetvecori);
 
         end_rotation = start_rotation * delta_rotation;
+
+        //Turn on colliders
+        Vision_bubble.GetComponent<SphereCollider>().enabled = true;
 
         Resolve_time = update_units;
         do_resolve = true;
@@ -82,7 +99,7 @@ public class Ship : MonoBehaviour
         float elapsed_time_fraction = (20 - Resolve_time) / 20;
         if (do_resolve)
         {
-            gameObject.transform.Translate(Update_step, Space.World);
+            gameObject.transform.Translate(Update_step,Space.World);
             if (--Resolve_time < 0)
                 do_resolve = false;
 
@@ -101,10 +118,10 @@ public class Ship : MonoBehaviour
             //add the delta velocity and reset the delta for the next turn
             if (shouldReset)
             {
+                Vision_bubble.GetComponent<SphereCollider>().enabled = false;
                 Velocity_current += Velocity_delta;
                 Velocity_delta = new Vector3(0, 0, 0);
                 shouldReset = false;
-                do_resolve = false;
             }
         }
     }

@@ -36,18 +36,23 @@ public class Game : MonoBehaviour {
 
         if (friendly)
         {
+            ((Ship)ship.GetComponent("Ship")).Player_id = 1;
             My_ships.Add(ship);
         }
         else
         {
+            ((Ship)ship.GetComponent("Ship")).Player_id = 2;
+            ((Ship)ship.GetComponent("Ship")).Set_all_visible(false);
             Enemy_shipsp.Add(ship);
+            Debug.Log("Spawn enemy");
         }
     }
 
     // Use this for initialization
     void Start () {
-        SpawnShip(true, new Vector3(0, 0, 100), Ship.Type.SCOUT);
+        SpawnShip(true, new Vector3(0, 0, 100), Ship.Type.CRUISER);
         SpawnShip(false, new Vector3(0, 100, 100), Ship.Type.SCOUT);
+        SpawnShip(false, new Vector3(0, 200, 100), Ship.Type.SCOUT);
     }
 
     void ResolveTurn()
@@ -55,8 +60,8 @@ public class Game : MonoBehaviour {
         Debug.Log("Resolve started");
         foreach( GameObject obj in My_ships )
             obj.GetComponent("Ship").SendMessage("Start_resolution", 20U );
-        foreach (GameObject obj in Enemy_shipsp )
-            obj.GetComponent("Ship").SendMessage("Start_resolution", 20U );
+        //foreach (GameObject obj in Enemy_shipsp )
+         //   obj.GetComponent("Ship").SendMessage("Start_resolution", 20U );
     }
 	
 	// Update is called once per frame
