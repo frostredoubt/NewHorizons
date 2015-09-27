@@ -5,7 +5,11 @@ using UnityEngine.Networking;
 
 public class Game : NetworkBehaviour
 {
+    [System.NonSerialized]
     static public Game singleton;
+
+    [System.NonSerialized]
+    public GameObject local_player;
 
     [SyncVar]
     bool game_started;
