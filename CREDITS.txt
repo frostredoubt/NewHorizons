@@ -1,5 +1,16 @@
-space_chimes.wav -
-	Originally titled archi_soundspace_space3.wav (https://www.freesound.org/people/Argitoth/sounds/38969/),
-	created by Argitoth (https://www.freesound.org/people/Argitoth/),
+atmospheres and soundscapes pack
+	created by ERH (https://freesound.org/people/ERH/)
+	provided under CC 3.0 (http://creativecommons.org/licenses/by/3.0/)
+
+
+communique_7.wav
+	originally titled Communique 7.wav (https://freesound.org/people/JimiMod/sounds/322901/)
+	created by JimiMod (https://freesound.org/people/JimiMod/)
+	provided under CC 3.0 (http://creativecommons.org/licenses/by/3.0/)
+
+
+starship_hum.wav
+	originally titled starshiphum.wav (https://freesound.org/people/Therac-25/sounds/25322/)
+	created by Therac-25 (https://freesound.org/people/Therac-25/)
 	provided under CC 3.0 (http://creativecommons.org/licenses/by/3.0/)
 
