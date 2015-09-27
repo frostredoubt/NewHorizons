@@ -16,9 +16,10 @@ public class Ship : NetworkBehaviour
     public ParticleSystem engine3;
     public ParticleSystem engine4;
 
-    public bool Weapons_enabled = false;
+    public bool Weapons_enabled = true;
     public float Scout_range = 1;
     public float Weapon_range = 1;
+    public uint Weapon_damage = 1;
 
     public Type Ship_type;
 
@@ -135,6 +136,7 @@ public class Ship : NetworkBehaviour
 
         //Turn on colliders
         Vision_bubble.GetComponent<SphereCollider>().enabled = true;
+        FiringArc.GetComponent<MeshCollider>().enabled = true;
 
         Resolve_time = update_units;
         do_resolve = true;
@@ -151,6 +153,7 @@ public class Ship : NetworkBehaviour
 
         do_resolve = false;
         Vision_bubble.GetComponent<SphereCollider>().enabled = false;
+        FiringArc.GetComponent<MeshCollider>().enabled = false;
     }
 
     [ServerCallback]
@@ -185,10 +188,16 @@ public class Ship : NetworkBehaviour
 
             if( attack != null )
             {
-                Debug.Log("PewPew");
                 Debug.DrawLine(transform.position, attack.gameObject.transform.position,Color.red);
+                if( Weapons_enabled )
+                    Shoot_target(attack);
             }
         }
+    }
+
+    void Shoot_target( Ship target )
+    {
+        target.health -= Weapon_damage;
     }
 
     public void Set_shooting( Ship other_ship )
