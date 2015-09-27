@@ -37,6 +37,7 @@ public class Ship : NetworkBehaviour
     public GameObject Momentum_ray;
     public GameObject Vision_bubble;
     public GameObject Model;
+    public GameObject FiringArc;
     float Resolve_time;
     Vector3 Update_step;
 
@@ -46,6 +47,7 @@ public class Ship : NetworkBehaviour
     private bool do_resolve = false;
     private uint Turn_update_units;
     private AudioSource shipWhoosh;
+    private Ship Current_target;
 
     // Use this for initialization
     void Start()
@@ -54,6 +56,7 @@ public class Ship : NetworkBehaviour
         Vision_bubble = transform.FindChild("Vision").gameObject;
         Model = transform.FindChild("Model").gameObject;
         shipWhoosh = transform.FindChild("ShipWhoosh").GetComponent<AudioSource>();
+        FiringArc = transform.FindChild("FiringArc").gameObject;
     }
 
     public void Set_model_visible( bool vis )
@@ -150,9 +153,34 @@ public class Ship : NetworkBehaviour
         Vision_bubble.GetComponent<SphereCollider>().enabled = false;
     }
 
-    [ServerCallback]
+//    [ServerCallback]
     void FixedUpdate()
     {
+        {
+            float min = 0;
+            Ship attack = null;
+            foreach (Ship s in FiringArc.GetComponent<Cone>().targets)
+            {
+                float distance = Vector3.Distance(transform.position, s.gameObject.transform.position);
+                if (attack == null)
+                {
+                    min = distance;
+                    attack = s;
+                }
+                if (min > distance)
+                {
+                    min = distance;
+                    attack = s;
+                }
+            }
+
+            if (attack != null)
+            {
+                Debug.Log("PewPew");
+                Debug.DrawLine(transform.position, attack.gameObject.transform.position, Color.red);
+            }
+        }
+
         float elapsed_time_fraction = (Turn_update_units - Resolve_time) / Turn_update_units;
         if (do_resolve)
         {
@@ -162,6 +190,39 @@ public class Ship : NetworkBehaviour
 
             Quaternion step = Quaternion.Lerp(start_rotation, end_rotation, elapsed_time_fraction);
             gameObject.transform.rotation = step;
+
+            float min = 0;
+            Ship attack = null;
+            foreach (Ship s in FiringArc.GetComponent<Cone>().targets)
+            {
+                float distance = Vector3.Distance(transform.position, s.gameObject.transform.position);
+                if (attack == null)
+                {
+                    min = distance;
+                    attack = s;
+                }
+                if (min > distance)
+                {
+                    min = distance;
+                    attack = s;
+                }
+            }
+
+            if( attack != null )
+            {
+                Debug.Log("PewPew");
+                Debug.DrawLine(transform.position, attack.gameObject.transform.position,Color.red);
+            }
         }
+    }
+
+    public void Set_shooting( Ship other_ship )
+    {
+        Current_target = other_ship;
+    }
+
+    public void Unset_shooting()
+    {
+        Current_target = null;
     }
 }

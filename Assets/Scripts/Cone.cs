@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class Cone : MonoBehaviour {
 
@@ -206,5 +207,31 @@ public class Cone : MonoBehaviour {
 
         mesh.RecalculateBounds();
         mesh.Optimize();
+
+        gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
+    }
+
+    void OnTriggerExit( Collider other )
+    {
+        Debug.Log("Exiting");
+        if (other.transform.name == "Model" && 
+                gameObject.transform.parent.GetComponent<Ship>().player != other.transform.parent.GetComponent<Ship>().player )
+        {
+            targets.Remove(other.gameObject.GetComponentInParent<Ship>());
+        }
+    }
+
+    public List<Ship> targets = new List<Ship>();
+
+    void OnTriggerEnter(Collider other)
+    {
+        Debug.Log("Entering");
+        if (other.transform.name == "Model" &&
+                gameObject.transform.parent.GetComponent<Ship>().player != other.transform.parent.GetComponent<Ship>().player)
+        {
+            Debug.DrawLine(gameObject.transform.parent.position, other.transform.parent.position, Color.green);
+            targets.Add(other.gameObject.GetComponentInParent<Ship>());
+            Debug.Log(targets);
+        }
     }
 }
