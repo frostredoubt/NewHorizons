@@ -35,7 +35,7 @@ public class Vision : MonoBehaviour {
 
                 if (a.Player_id == 1 && b.Player_id == 2)
                 {
-                    b.Set_visible(true);
+                    b.Set_model_visible(true);
                     Debug.Log("Seeing enemy ship");
                 }
             }
@@ -55,7 +55,7 @@ public class Vision : MonoBehaviour {
 
                 if (a.Player_id == 1 && b.Player_id == 2)
                 {
-                    b.Set_visible(false);
+                    b.Set_model_visible(false);
                     Debug.Log("Not seeing enemy ship");
                 }
             }

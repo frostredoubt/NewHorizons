@@ -38,7 +38,6 @@ public class Ship : MonoBehaviour
 
     private bool shouldReset = false;
     private bool do_resolve = false;
-    private bool Is_visible = false;
 
     // Use this for initialization
     void Start()
@@ -48,25 +47,31 @@ public class Ship : MonoBehaviour
         Model = transform.FindChild("Model").gameObject;
     }
 
-    public void Set_visible( bool visibility )
+    public void Set_model_visible( bool vis )
     {
-        Is_visible = visibility;
+        Model.GetComponent<MeshRenderer>().enabled = vis;
+    }
+
+    public void Set_all_visible( bool visibility )
+    {
         foreach (Renderer r in GetComponentsInChildren<Renderer>())
-        {
-            if(r.gameObject.name != "Vision" )
                 r.enabled = visibility;
-        }
     }
 
     void Start_resolution(uint update_units)
     {
+        start_rotation = gameObject.transform.rotation;
+
         Update_step = start_rotation * Velocity_current / update_units;
 
-        start_rotation = gameObject.transform.rotation;
-        Vector3 unit = new Vector3(0, 1, 0);
-        Vector3 target = Velocity_current.normalized;
-        target = start_rotation * target;
-        end_rotation = Quaternion.FromToRotation(unit, target);
+        Vector3 originalori = new Vector3(0, 1, 0);
+
+        Vector3 currentvecori = start_rotation * originalori;
+        Vector3 targetvecori = start_rotation * Velocity_current.normalized;
+
+        Quaternion delta_rotation = Quaternion.FromToRotation(currentvecori, targetvecori);
+
+        end_rotation = start_rotation * delta_rotation;
 
         //Turn on colliders
         Vision_bubble.GetComponent<SphereCollider>().enabled = true;

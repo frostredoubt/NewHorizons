@@ -42,7 +42,7 @@ public class Game : MonoBehaviour {
         else
         {
             ((Ship)ship.GetComponent("Ship")).Player_id = 2;
-            ((Ship)ship.GetComponent("Ship")).Set_visible(false);
+            ((Ship)ship.GetComponent("Ship")).Set_all_visible(false);
             Enemy_shipsp.Add(ship);
             Debug.Log("Spawn enemy");
         }
