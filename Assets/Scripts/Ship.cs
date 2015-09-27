@@ -201,6 +201,8 @@ public class Ship : NetworkBehaviour
     void Shoot_target( Ship target )
     {
         target.health -= Weapon_damage;
+        if (target.health <= 0)
+            Destroy(target.gameObject);
     }
 
     public void Set_shooting( Ship other_ship )

@@ -213,7 +213,6 @@ public class Cone : MonoBehaviour {
 
     void OnTriggerExit( Collider other )
     {
-        Debug.Log("Exiting");
         if (other.transform.name == "Model" && 
                 gameObject.transform.parent.GetComponent<Ship>().player != other.transform.parent.GetComponent<Ship>().player )
         {
@@ -225,7 +224,6 @@ public class Cone : MonoBehaviour {
 
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Entering");
         if (other.transform.name == "Model" &&
                 gameObject.transform.parent.GetComponent<Ship>().player != other.transform.parent.GetComponent<Ship>().player)
         {
