@@ -64,6 +64,7 @@ public class Vision : MonoBehaviour {
 
     void OnMouseEnter()
     {
+        Debug.Log("Test");
         Ship s = gameObject.transform.parent.GetComponent("Ship") as Ship;
         if (gameObject.name == "Model" && s.Player_id == 1 )
         {
