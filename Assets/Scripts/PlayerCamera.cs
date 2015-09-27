@@ -91,6 +91,7 @@ public class PlayerCamera : NetworkBehaviour
     [ClientCallback]
     private void Start()
     {
+        GameObject.Find("CustomNetworkMgr").GetComponent<NetworkManagerHUD>().showGUI = false;
         playerCamera = GetComponent<Camera>();
         playerCamera.enabled = isLocalPlayer;
         objectSelectionTrackingState = ObjectSelectionTrackingState.None;
@@ -118,6 +119,12 @@ public class PlayerCamera : NetworkBehaviour
         if (Input.GetKeyDown(KeyCode.Return))
         {
             CmdStartGame();
+        }
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            bool current = GameObject.Find("CustomNetworkMgr").GetComponent<NetworkManagerHUD>().showGUI;
+            GameObject.Find("CustomNetworkMgr").GetComponent<NetworkManagerHUD>().showGUI = !current;
         }
 
         return;
