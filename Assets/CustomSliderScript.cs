@@ -28,7 +28,7 @@ public class CustomSliderScript : MonoBehaviour {
             director.SelectedShip.pitch_yaw_speed[vectorIndex] = slider.value;
 
 			//display the number to our players
-			numberText.text = director.SelectedShip.Velocity_current[vectorIndex].ToString() + " + " + slider.value.ToString();
+			numberText.text = director.SelectedShip.last_pitch_yaw_speed[vectorIndex].ToString() + " -> " + slider.value.ToString();
 		}
 	}
 
