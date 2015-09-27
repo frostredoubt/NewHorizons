@@ -24,6 +24,12 @@ public class PlayerCamera : NetworkBehaviour
     private Vector3 keyboardRotationSensitivity = new Vector3(0.0f, 0.0f, 100.0f);
 
     /// <summary>
+    /// Sensitivities used for mouse movement.
+    /// </summary>
+    [SerializeField]
+    private Vector3 mouseMovementSensitivity = new Vector3(0.0f, 200.0f, 0.0f);
+
+    /// <summary>
     /// Sensitivities used for mouse rotation.
     /// </summary>
     [SerializeField]
@@ -71,7 +77,7 @@ public class PlayerCamera : NetworkBehaviour
     }
 
     // Various private input state variables
-    Vector3 keyboardMovement, keyboardRotation, mouseRotation;
+    Vector3 keyboardMovement, keyboardRotation, mouseMovement, mouseRotation;
     private bool mouseLeftPress, mouseMiddlePress, mouseRightPress;
     private bool mouseLeftHold, mouseMiddleHold, mouseRightHold;
     private bool mouseLeftRelease, mouseMiddleRelease, mouseRightRelease;
@@ -145,6 +151,7 @@ public class PlayerCamera : NetworkBehaviour
 
         // Movement and rotational inputs
         keyboardMovement = new Vector3(Input.GetAxis("Horizontal"), 0.0f, Input.GetAxis("Vertical"));
+        mouseMovement = new Vector3(0.0f, Input.GetAxis("Mouse ScrollWheel"), 0.0f);
         keyboardRotation = new Vector3(0.0f, 0.0f,
             (Input.GetKey(KeyCode.Q) ? 1.0f : 0.0f) + (Input.GetKey(KeyCode.E) ? -1.0f : 0.0f));
         mouseRotation = new Vector3(-Input.GetAxis("Mouse Y"), Input.GetAxis("Mouse X"), 0.0f);
@@ -218,6 +225,9 @@ public class PlayerCamera : NetworkBehaviour
         // Translate the camera's movement
         Vector3 cameraTranslation = keyboardMovement;
         cameraTranslation.Scale(keyboardMovementSensitivity);
+        Vector3 cameraMouseTranslation = mouseMovement;
+        cameraMouseTranslation.Scale(mouseMovementSensitivity);
+        cameraTranslation += cameraMouseTranslation;
         transform.Translate(Time.deltaTime * cameraTranslation);
 
         // Rotate the camera's movement
