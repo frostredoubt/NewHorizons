@@ -1,4 +1,4 @@
-﻿﻿using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
@@ -21,6 +21,9 @@ public class Ship : NetworkBehaviour
     public float Weapon_range = 1;
 
     public Type Ship_type;
+
+	public float health = 100.0f;
+	public string name;
 
     //Max values
     // (Speed, Pitch, Yaw)
