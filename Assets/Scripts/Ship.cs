@@ -11,6 +11,10 @@ public class Ship : NetworkBehaviour
         KING
     };
 
+    public ParticleSystem engine1;
+    public ParticleSystem engine2;
+    public ParticleSystem engine3;
+    public ParticleSystem engine4;
 
     public bool Weapons_enabled = false;
     public float Scout_range = 1;
@@ -61,6 +65,23 @@ public class Ship : NetworkBehaviour
     [Server]
     public void Start_resolution(uint update_units)
     {
+        if (!engine1.IsAlive())
+        {
+            engine1.Play();
+        }
+        if (!engine2.IsAlive())
+        {
+            engine2.Play();
+        }
+        if (!engine3.IsAlive())
+        {
+            engine3.Play();
+        }
+        if (!engine4.IsAlive())
+        {
+            engine4.Play();
+        }
+
         //Debug.Log("ship Start_resolution");
         Turn_update_units = update_units;
 
@@ -100,6 +121,11 @@ public class Ship : NetworkBehaviour
 
     void Finish_resolution()
     {
+        engine1.Stop();
+        engine2.Stop();
+        engine3.Stop();
+        engine4.Stop();
+
         do_resolve = false;
         Vision_bubble.GetComponent<SphereCollider>().enabled = false;
     }

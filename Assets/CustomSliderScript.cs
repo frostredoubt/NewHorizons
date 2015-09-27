@@ -37,6 +37,7 @@ public class CustomSliderScript : MonoBehaviour {
         PlayerShipController shipcontroller = Game.singleton.local_player.GetComponentInChildren<PlayerShipController>();
 
         float current_val = shipcontroller.pitch_yaw_speed[vectorIndex];
+		float last_val = shipcontroller.last_pitch_yaw_speed [vectorIndex];
         float min_val = shipcontroller.min_pitch_yaw_speed[vectorIndex];
         float max_val = shipcontroller.max_pitch_yaw_speed[vectorIndex];
         float max_abs_delta_val = shipcontroller.max_abs_delta_pitch_yaw_speed[vectorIndex];
@@ -51,8 +52,8 @@ public class CustomSliderScript : MonoBehaviour {
         sliderDelta = backgroundRectTransform.sizeDelta.x / Mathf.Abs(max_val - min_val);
 
 		//find how much we can move (basically the max/min delta, capped for overal max/min)
-        slider.minValue = Mathf.Max(current_val - max_abs_delta_val, min_val);
-        slider.maxValue = Mathf.Min(current_val + max_abs_delta_val, max_val);
+		slider.minValue = Mathf.Max(last_val - max_abs_delta_val, min_val);
+		slider.maxValue = Mathf.Min(last_val + max_abs_delta_val, max_val);
 
 		//size and position the actual interactable slider
 		rectTransform.sizeDelta = new Vector2((slider.maxValue - slider.minValue) * sliderDelta, rectTransform.sizeDelta.y);
