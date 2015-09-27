@@ -206,6 +206,15 @@ namespace UnityEngine.Networking
 				}
 			}
 		}
+
+		public void StartGame() {
+			manager.StartHost();
+		}
+
+		public void JoinGame(string ipAddress) {
+			manager.StartClient(); 
+			manager.networkAddress = ipAddress;
+		}
 	}
 };
 #endif //ENABLE_UNET
