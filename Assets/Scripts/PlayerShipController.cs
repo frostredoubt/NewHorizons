@@ -7,11 +7,12 @@ using UnityEngine.Networking;
 
 public class PlayerShipController : NetworkBehaviour {
 
-    public Vector3 last_pitch_yaw_speed = new Vector3(0, 0, 10.0f);
-    public Vector3 pitch_yaw_speed;
     public Vector3 max_abs_delta_pitch_yaw_speed = new Vector3(45.0f, 45.0f, 40.0f);
     public Vector3 max_pitch_yaw_speed = new Vector3(90.0f, 90.0f, 100.0f);
     public Vector3 min_pitch_yaw_speed = new Vector3(-90.0f, -90.0f, 10.0f);
+
+    [SyncVar]
+    public bool finishedenteringmoves;
 
     // Use this for initialization
     [ClientCallback]
@@ -37,10 +38,10 @@ public class PlayerShipController : NetworkBehaviour {
             return;
 
         {
-            Quaternion pitchchange = Quaternion.AngleAxis(pitch_yaw_speed.x, new Vector3(1, 0, 0));
-            Quaternion yawchange = Quaternion.AngleAxis(pitch_yaw_speed.y, new Vector3(0, 0, 1));
+            Quaternion pitchchange = Quaternion.AngleAxis(ship.pitch_yaw_speed.x, new Vector3(1, 0, 0));
+            Quaternion yawchange = Quaternion.AngleAxis(ship.pitch_yaw_speed.y, new Vector3(0, 0, 1));
 
-            Vector3 velocity = pitch_yaw_speed.z * (pitchchange * yawchange * (new Vector3(0, 1, 0)));
+            Vector3 velocity = ship.pitch_yaw_speed.z * (pitchchange * yawchange * (new Vector3(0, 1, 0)));
 
             CmdSetVelocity(ship.gameObject, velocity);
         }
@@ -64,7 +65,11 @@ public class PlayerShipController : NetworkBehaviour {
     {
         if (isLocalPlayer)
         {
-            last_pitch_yaw_speed = pitch_yaw_speed;
+            Ship ship = BenPrimeTest_GameDirector.singleton.SelectedShip;
+
+            if(ship)
+                ship.last_pitch_yaw_speed = ship.pitch_yaw_speed;
+
             CmdStartResolution();
         }
     }
@@ -72,6 +77,7 @@ public class PlayerShipController : NetworkBehaviour {
     [Command]
     private void CmdStartResolution()
     {
-        Game.singleton.StartResolution();
+        finishedenteringmoves = true;
+        Game.singleton.StartResolution(gameObject);
     }
 }

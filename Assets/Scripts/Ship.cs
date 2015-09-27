@@ -16,9 +16,10 @@ public class Ship : NetworkBehaviour
     public ParticleSystem engine3;
     public ParticleSystem engine4;
 
-    public bool Weapons_enabled = false;
+    public bool Weapons_enabled = true;
     public float Scout_range = 1;
     public float Weapon_range = 1;
+    public uint Weapon_damage = 1;
 
     public Type Ship_type;
 
@@ -33,6 +34,9 @@ public class Ship : NetworkBehaviour
 
     [SyncVar]
     public GameObject player;
+
+    public Vector3 last_pitch_yaw_speed = new Vector3(0, 0, 10.0f);
+    public Vector3 pitch_yaw_speed;
 
     public GameObject Momentum_ray;
     public GameObject Vision_bubble;
@@ -134,7 +138,8 @@ public class Ship : NetworkBehaviour
         end_rotation = start_rotation * fromoriginaltotarget;
 
         //Turn on colliders
-        Vision_bubble.GetComponent<SphereCollider>().enabled = true;
+        RpcSetVisionColliderEnabled(true);
+        RpcSetFiringArcMeshEnabled(true);
 
         Resolve_time = update_units;
         do_resolve = true;
@@ -150,7 +155,20 @@ public class Ship : NetworkBehaviour
         RpcStopMoveFX();
 
         do_resolve = false;
-        Vision_bubble.GetComponent<SphereCollider>().enabled = false;
+        RpcSetVisionColliderEnabled(false);
+        RpcSetFiringArcMeshEnabled(false);
+    }
+
+    [ClientRpc]
+    void RpcSetVisionColliderEnabled(bool enabled)
+    {
+        Vision_bubble.GetComponent<SphereCollider>().enabled = enabled;
+    }
+
+    [ClientRpc]
+    void RpcSetFiringArcMeshEnabled(bool enabled)
+    {
+        FiringArc.GetComponent<MeshCollider>().enabled = enabled;
     }
 
     [ServerCallback]
@@ -185,10 +203,18 @@ public class Ship : NetworkBehaviour
 
             if( attack != null )
             {
-                Debug.Log("PewPew");
                 Debug.DrawLine(transform.position, attack.gameObject.transform.position,Color.red);
+                if( Weapons_enabled )
+                    Shoot_target(attack);
             }
         }
+    }
+
+    void Shoot_target( Ship target )
+    {
+        target.health -= Weapon_damage;
+        if (target.health <= 0)
+            Destroy(target.gameObject);
     }
 
     public void Set_shooting( Ship other_ship )

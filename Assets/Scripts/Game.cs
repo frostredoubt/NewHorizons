@@ -21,6 +21,8 @@ public class Game : NetworkBehaviour
 
     List<GameObject> ships = new List<GameObject>();
 
+    HashSet<GameObject> readyplayers = new HashSet<GameObject>();
+
     public Vector3 My_start = new Vector3(0, 0, 0);
     public Vector3 Enemy_start = new Vector3(10, 10, 10);
 
@@ -41,8 +43,9 @@ public class Game : NetworkBehaviour
             Debug.Log(players.Length);
 
             int count = 0;
-            foreach ( GameObject player in players )
-                SpawnShip(player, new Vector3(-11, 10+(count+=10), 11), Ship.Type.SCOUT);
+            foreach (GameObject player in players)
+                for (uint i = 0; i < 2; ++i)
+                    SpawnShip(player, new Vector3(-11, 10 + (count += 10), 11), Ship.Type.SCOUT);
 
             game_started = true;
         }
@@ -104,11 +107,27 @@ public class Game : NetworkBehaviour
     }
 
     [Server]
-    public void StartResolution()
+    public void StartResolution(GameObject player)
     {
-        foreach(GameObject ship in ships) {
-            Ship shipcomp = ((Ship)ship.GetComponent("Ship"));
-            shipcomp.Start_resolution(30U);
+        readyplayers.Add(player);
+
+        // This obviously won't work if players can join/drop or under any non-optimal setting really
+        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+        if (readyplayers.Count == players.Length)
+        {
+            foreach (GameObject ship in ships)
+            {
+                Ship shipcomp = ((Ship)ship.GetComponent("Ship"));
+                shipcomp.Start_resolution(30U);
+            }
+
+            // -- To do this properly game needs to know when resolution finished (only ships know)
+            foreach(GameObject rdyplr in readyplayers) {
+                rdyplr.GetComponent<PlayerShipController>().finishedenteringmoves = false;
+            }
+
+            readyplayers.Clear();
         }
     }
 

@@ -105,6 +105,7 @@ public class PlayerCamera : NetworkBehaviour
         GameObject.Find("CustomNetworkMgr").GetComponent<NetworkManagerHUD>().showGUI = false;
         playerCamera = GetComponent<Camera>();
         playerCamera.enabled = isLocalPlayer;
+        GetComponent<AudioListener>().enabled = isLocalPlayer;
         playerAudioSource = GetComponent<AudioSource>();
         objectSelectionTrackingState = ObjectSelectionTrackingState.None;
         lastSelectedObject = null;
@@ -209,6 +210,15 @@ public class PlayerCamera : NetworkBehaviour
             playerAudioSource.PlayOneShot(objectSelectAudioClip);
             lastSelectedObject = hitInfo.transform.FindChild(selectableTag);
             objectSelectionTrackingState = ObjectSelectionTrackingState.Tracking;
+
+            if (lastSelectedObject)
+            {
+                Ship ship = lastSelectedObject.GetComponentInParent<Ship>();
+                if (ship && ship.player == Game.singleton.local_player)
+                {
+                    BenPrimeTest_GameDirector.singleton.setSelectedShip(ship);
+                }
+            }
         }
 
         return;
