@@ -208,7 +208,7 @@ public class PlayerCamera : NetworkBehaviour
                 }
                 break;
 
-            default: // Something crazy happened, about any tracking
+            default: // Something crazy happened, abort any tracking
                 objectSelectionTrackingState = ObjectSelectionTrackingState.None;
                 break;
         }
