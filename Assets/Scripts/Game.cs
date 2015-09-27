@@ -38,6 +38,7 @@ public class Game : NetworkBehaviour
             Debug.Log("Game started");
 
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+            Debug.Log(players.Length);
 
             int count = 0;
             foreach ( GameObject player in players )

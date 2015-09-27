@@ -15,6 +15,12 @@ public class ClickHandler : NetworkBehaviour, IPointerClickHandler {
 
     [ClientCallback]
 	public void OnPointerClick (PointerEventData eventData) {
-		director.setSelectedShip(ship);
+        if (!director)
+            director = BenPrimeTest_GameDirector.singleton;
+
+        if (ship.player == Game.singleton.local_player)
+        {
+            director.setSelectedShip(ship);
+        }
 	}
 }

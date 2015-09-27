@@ -24,19 +24,22 @@ public class CustomSliderScript : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (director && director.SelectedShip) {
-			//update the delta vector
-            director.SelectedShip.pitch_yaw_speed[vectorIndex] = slider.value;
+            //update the delta vector
+            PlayerShipController shipcontroller = Game.singleton.local_player.GetComponentInChildren<PlayerShipController>();
+            shipcontroller.pitch_yaw_speed[vectorIndex] = slider.value;
 
 			//display the number to our players
-			numberText.text = director.SelectedShip.last_pitch_yaw_speed[vectorIndex].ToString() + " -> " + slider.value.ToString();
+            numberText.text = shipcontroller.last_pitch_yaw_speed[vectorIndex].ToString() + " -> " + slider.value.ToString();
 		}
 	}
 
 	void shipSelected(Ship selectedShip) {
-        float current_val = selectedShip.pitch_yaw_speed[vectorIndex];
-        float min_val = selectedShip.min_pitch_yaw_speed[vectorIndex];
-        float max_val = selectedShip.max_pitch_yaw_speed[vectorIndex];
-        float max_abs_delta_val = selectedShip.max_abs_delta_pitch_yaw_speed[vectorIndex];
+        PlayerShipController shipcontroller = Game.singleton.local_player.GetComponentInChildren<PlayerShipController>();
+
+        float current_val = shipcontroller.pitch_yaw_speed[vectorIndex];
+        float min_val = shipcontroller.min_pitch_yaw_speed[vectorIndex];
+        float max_val = shipcontroller.max_pitch_yaw_speed[vectorIndex];
+        float max_abs_delta_val = shipcontroller.max_abs_delta_pitch_yaw_speed[vectorIndex];
 
 		//we've selected a ship! so build an appropriate slider
         slider.value = current_val;
