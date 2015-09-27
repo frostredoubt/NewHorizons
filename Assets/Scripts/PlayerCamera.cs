@@ -97,8 +97,14 @@ public class PlayerCamera : NetworkBehaviour
     [ClientCallback]
     private void Start()
     {
-        playerCamera = GetComponent<Camera>();
-        playerCamera.enabled = ignoreNetworkBehaviour ? true : isLocalPlayer;
+		if (ignoreNetworkBehaviour) {
+			playerCamera = Camera.main;
+			playerCamera.enabled = true;
+		} else {
+			playerCamera = GetComponent<Camera>();
+			playerCamera.enabled = isLocalPlayer;
+		}
+        
         objectSelectionTrackingState = ObjectSelectionTrackingState.None;
         lastSelectedObject = null;
         return;
