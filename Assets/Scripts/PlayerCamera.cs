@@ -339,7 +339,7 @@ public class PlayerCamera : NetworkBehaviour
     /// <returns>A boolean representing whether or not the user used the camera rotation input.</returns>
     private bool TiltPanCamera()
     {
-		return mouseRightHold;
+        return mouseRightHold;
     }
 
 }
