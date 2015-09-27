@@ -111,10 +111,36 @@ public class PlayerCamera : NetworkBehaviour
         }
 
         GetInput();
-        CheckForObjectSelect();
+        //CheckForObjectSelect();
         UpdateCamera();
 
+        // Fil: putting this here for now
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            CmdStartGame();
+        }
+
         return;
+    }
+
+    [Command]
+    private void CmdStartGame()
+    {
+        Game.singleton.StartGame();
+    }
+
+    public void Player_start_resolution()
+    {
+        if (isLocalPlayer)
+        {
+            CmdStartResolution();
+        }
+    }
+
+    [Command]
+    private void CmdStartResolution()
+    {
+        Game.singleton.StartResolution();
     }
 
 

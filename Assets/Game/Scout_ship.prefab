@@ -9,6 +9,8 @@ GameObject:
   m_Component:
   - 4: {fileID: 424864}
   - 114: {fileID: 11406616}
+  - 114: {fileID: 11454516}
+  - 114: {fileID: 11497510}
   m_Layer: 0
   m_Name: Scout_ship
   m_TagString: Untagged
@@ -50,6 +52,7 @@ GameObject:
   - 136: {fileID: 13622826}
   - 114: {fileID: 11461844}
   - 114: {fileID: 11498046}
+  - 114: {fileID: 11448060}
   m_Layer: 0
   m_Name: Model
   m_TagString: Untagged
@@ -237,7 +240,7 @@ MonoBehaviour:
   max_abs_delta_pitch_yaw_speed: {x: 45, y: 45, z: 40}
   max_pitch_yaw_speed: {x: 90, y: 90, z: 100}
   min_pitch_yaw_speed: {x: -90, y: -90, z: 10}
-  Player_id: 0
+  player: {fileID: 0}
   Momentum_ray: {fileID: 196184}
   Vision_bubble: {fileID: 152502}
   Model: {fileID: 190472}
@@ -252,6 +255,70 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 199b90882ac627a4aae7fefe1bff448a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11448060
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 190472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 227
+    i1: 224
+    i2: 241
+    i3: 45
+    i4: 111
+    i5: 154
+    i6: 1
+    i7: 196
+    i8: 216
+    i9: 156
+    i10: 233
+    i11: 147
+    i12: 154
+    i13: 33
+    i14: 66
+    i15: 82
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
+--- !u!114 &11454516
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 227
+    i1: 224
+    i2: 241
+    i3: 45
+    i4: 111
+    i5: 154
+    i6: 1
+    i7: 196
+    i8: 216
+    i9: 156
+    i10: 233
+    i11: 147
+    i12: 154
+    i13: 33
+    i14: 66
+    i15: 82
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11461844
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -263,6 +330,26 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 199b90882ac627a4aae7fefe1bff448a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11497510
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 122932}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -1768714887, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_TransformSyncMode: 1
+  m_SendInterval: .100000001
+  m_SyncRotationAxis: 7
+  m_RotationSyncCompression: 0
+  m_SyncSpin: 0
+  m_MovementTheshold: .00100000005
+  m_SnapThreshold: 5
+  m_InterpolateRotation: 1
+  m_InterpolateMovement: 1
 --- !u!114 &11498046
 MonoBehaviour:
   m_ObjectHideFlags: 1

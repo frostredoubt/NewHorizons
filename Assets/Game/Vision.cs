@@ -33,7 +33,7 @@ public class Vision : MonoBehaviour {
                 Ship a = my_parent.GetComponent("Ship") as Ship;
                 Ship b = their_parent.GetComponent("Ship") as Ship;
 
-                if (a.Player_id == 1 && b.Player_id == 2)
+                if (a.player != b.player)
                 {
                     b.Set_model_visible(true);
                     Debug.Log("Seeing enemy ship");
@@ -53,7 +53,7 @@ public class Vision : MonoBehaviour {
                 Ship a = my_parent.GetComponent("Ship") as Ship;
                 Ship b = their_parent.GetComponent("Ship") as Ship;
 
-                if (a.Player_id == 1 && b.Player_id == 2)
+                if (a.player != b.player)
                 {
                     b.Set_model_visible(false);
                     Debug.Log("Not seeing enemy ship");
@@ -64,20 +64,20 @@ public class Vision : MonoBehaviour {
 
     void OnMouseEnter()
     {
-        Debug.Log("Test");
+        /*Debug.Log("Test");
         Ship s = gameObject.transform.parent.GetComponent("Ship") as Ship;
-        if (gameObject.name == "Model" && s.Player_id == 1 )
+        if (gameObject.name == "Model" && s.player ==  )
         {
             Vision_object.GetComponent<MeshRenderer>().enabled = true;
-        }
+        }*/
     }
 
     void OnMouseExit()
     {
-        Ship s = gameObject.transform.parent.GetComponent("Ship") as Ship;
+        /*Ship s = gameObject.transform.parent.GetComponent("Ship") as Ship;
         if ( gameObject.name == "Model" && s.Player_id == 1 )
         {
             Vision_object.GetComponent<MeshRenderer>().enabled = false;
-        }
+        }*/
     }
 }

@@ -6,6 +6,10 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/MASTER/master.unity
+  - enabled: 1
+    path: Assets/MASTER/online.unity
+  - enabled: 1
     path: Assets/Scenes/lobby_scene.unity
   - enabled: 1
     path: Assets/Scenes/network_play_scene.unity
@@ -13,7 +17,3 @@ EditorBuildSettings:
     path: Assets/ben_lobby_scene.unity
   - enabled: 1
     path: Assets/ben_scene.unity
-  - enabled: 1
-    path: Assets/MASTER/master.unity
-  - enabled: 1
-    path: Assets/MASTER/online.unity

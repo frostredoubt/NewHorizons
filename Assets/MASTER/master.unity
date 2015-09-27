@@ -154,7 +154,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 11412464, guid: 2cb85cf2818edb14184cb0699acd5f98, type: 2}
       propertyPath: m_SpawnPrefabs.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 452392, guid: 2cb85cf2818edb14184cb0699acd5f98, type: 2}
       propertyPath: m_LocalPosition.x
@@ -211,7 +211,7 @@ Prefab:
     - target: {fileID: 11412464, guid: 2cb85cf2818edb14184cb0699acd5f98, type: 2}
       propertyPath: m_SpawnPrefabs.Array.data[1]
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 122932, guid: e3e0f12d6f9a01c4d89ce9939a214252, type: 2}
     - target: {fileID: 11412464, guid: 2cb85cf2818edb14184cb0699acd5f98, type: 2}
       propertyPath: m_PlayerSpawnMethod
       value: 0

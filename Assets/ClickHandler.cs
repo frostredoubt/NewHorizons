@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.EventSystems;
+using UnityEngine.Networking;
 
-public class ClickHandler : MonoBehaviour, IPointerClickHandler {
+public class ClickHandler : NetworkBehaviour, IPointerClickHandler {
 	
 	public BenPrimeTest_GameDirector director;
 
@@ -12,6 +13,7 @@ public class ClickHandler : MonoBehaviour, IPointerClickHandler {
 		ship = GetComponentInParent<Ship> ();
 	}
 
+    [ClientCallback]
 	public void OnPointerClick (PointerEventData eventData) {
 		director.setSelectedShip(ship);
 	}

@@ -1,23 +1,53 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class Game : MonoBehaviour {
+public class Game : NetworkBehaviour
+{
+    static public Game singleton;
+
+    [SyncVar]
+    bool game_started;
 
     uint Turn_count;
     public GameObject ScoutShips;
     public GameObject KingShips;
     public GameObject CruiserShips;
 
-    List<GameObject> My_ships = new List<GameObject>();
-    List<GameObject> Enemy_shipsp = new List<GameObject>();
+    List<GameObject> ships = new List<GameObject>();
 
     public Vector3 My_start = new Vector3(0, 0, 0);
     public Vector3 Enemy_start = new Vector3(10, 10, 10);
 
     public GameObject UX;
 
-    void SpawnShip( bool friendly, Vector3 position, Ship.Type type )
+    public bool GameStarted()
+    {
+        return game_started;
+    }
+
+    public void StartGame()
+    {
+        if (!game_started)
+        {
+            Debug.Log("Game started");
+
+            GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
+
+            if(players.Length > 0)
+                SpawnShip(players[0], new Vector3(-11, 10, 11), Ship.Type.SCOUT);
+
+            game_started = true;
+        }
+        else
+        {
+            Debug.Log("Game already started");
+        }
+    }
+
+    [Server]
+    void SpawnShip( GameObject player, Vector3 position, Ship.Type type )
     {
         GameObject ship;
         GameObject prefab;
@@ -30,11 +60,25 @@ public class Game : MonoBehaviour {
             prefab = ScoutShips;
 
         // generate a location around the daddy ship
-        ship = (GameObject)Instantiate(prefab, new Vector3(0,0,0), Quaternion.identity);
+        ship = (GameObject)Instantiate(prefab, new Vector3(0, 0, 0), Quaternion.identity);
         ship.transform.position = position;
-        ((Ship)ship.GetComponent("Ship")).Ship_type = type;
 
-        if (friendly)
+        Ship shipcomp = ((Ship)ship.GetComponent("Ship"));
+        shipcomp.Ship_type = type;
+        shipcomp.player = player;
+
+        // -- set up director for clickhandlers
+        ClickHandler[] clickhandlers = ship.GetComponentsInChildren<ClickHandler>();
+        foreach (ClickHandler ch in clickhandlers)
+        {
+            ch.director = BenPrimeTest_GameDirector.singleton;
+        }
+
+        NetworkServer.Spawn(ship);
+
+        ships.Add(ship);
+
+        /*if (friendly)
         {
             ((Ship)ship.GetComponent("Ship")).Player_id = 1;
             My_ships.Add(ship);
@@ -45,16 +89,24 @@ public class Game : MonoBehaviour {
             ((Ship)ship.GetComponent("Ship")).Set_all_visible(false);
             Enemy_shipsp.Add(ship);
             Debug.Log("Spawn enemy");
-        }
+        }*/
     }
 
     // Use this for initialization
     void Start () {
-        SpawnShip(true, new Vector3(0, 0, 100), Ship.Type.CRUISER);
-        SpawnShip(false, new Vector3(0, 100, 100), Ship.Type.SCOUT);
-        SpawnShip(false, new Vector3(0, 200, 100), Ship.Type.SCOUT);
+        singleton = this;
     }
 
+    [Server]
+    public void StartResolution()
+    {
+        foreach(GameObject ship in ships) {
+            Ship shipcomp = ((Ship)ship.GetComponent("Ship"));
+            shipcomp.Start_resolution(10U);
+        }
+    }
+
+    /*[Server]
     void ResolveTurn()
     {
         Debug.Log("Resolve started");
@@ -65,8 +117,9 @@ public class Game : MonoBehaviour {
     }
 	
 	// Update is called once per frame
+    [ServerCallback]
 	void Update () {
         if (Input.GetKeyDown("a"))
             ResolveTurn();
-	}
+	}*/
 }

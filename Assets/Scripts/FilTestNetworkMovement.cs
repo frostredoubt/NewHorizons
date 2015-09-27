@@ -43,6 +43,6 @@ public class FilTestNetworkMovement : NetworkBehaviour
     [Command]
     void CmdStartGame()
     {
-        GameManagerScript.singleton.StartGame();
+        //GameManagerScript.singleton.StartGame();
     }
 }

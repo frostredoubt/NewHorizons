@@ -1,7 +1,8 @@
 ﻿﻿using UnityEngine;
 using System.Collections;
+using UnityEngine.Networking;
 
-public class Ship : MonoBehaviour
+public class Ship : NetworkBehaviour
 {
     public enum Type
     {
@@ -26,7 +27,7 @@ public class Ship : MonoBehaviour
     public Vector3 max_pitch_yaw_speed = new Vector3(90.0f, 90.0f, 100.0f);
     public Vector3 min_pitch_yaw_speed = new Vector3(-90.0f, -90.0f, 10.0f);
 
-    public uint Player_id;
+    public GameObject player;
     public GameObject Momentum_ray;
     public GameObject Vision_bubble;
     public GameObject Model;
@@ -57,8 +58,11 @@ public class Ship : MonoBehaviour
                 r.enabled = visibility;
     }
 
-    void Start_resolution(uint update_units)
+    [Server]
+    public void Start_resolution(uint update_units)
     {
+        Debug.Log("ship Start_resolution");
+
         last_pitch_yaw_speed = pitch_yaw_speed;
 
         start_rotation = gameObject.transform.rotation;
@@ -93,18 +97,19 @@ public class Ship : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("[1]"))
+        /*if (Input.GetKeyDown("[1]"))
             Velocity_current += (Input.GetKey("left shift")) ? Vector3.right : Vector3.left;
         else if (Input.GetKeyDown("[2]"))
             Velocity_current += (Input.GetKey("left shift")) ? Vector3.up : Vector3.down;
         else if (Input.GetKeyDown("[3]"))
-            Velocity_current += (Input.GetKey("left shift")) ? Vector3.forward : Vector3.back;
+            Velocity_current += (Input.GetKey("left shift")) ? Vector3.forward : Vector3.back;*/
 
         LineRenderer lr = Momentum_ray.GetComponent<LineRenderer>();
-        Debug.Log(Velocity_current);
+        //Debug.Log(Velocity_current);
         lr.SetPosition(1, Velocity_current);
     }
 
+    [ServerCallback]
     void FixedUpdate()
     {
         float elapsed_time_fraction = (20 - Resolve_time) / 20;

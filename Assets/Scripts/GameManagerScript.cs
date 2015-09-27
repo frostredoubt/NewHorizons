@@ -22,8 +22,8 @@ public class GameManagerScript : NetworkBehaviour {
         return game_started;
     }
 
-    [Server]
-    public void StartGame()
+    [Command]
+    public void CmdStartGame()
     {
         if (!game_started)
         {
