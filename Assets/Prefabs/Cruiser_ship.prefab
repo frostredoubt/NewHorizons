@@ -241,13 +241,13 @@ MonoBehaviour:
   Scout_range: 1
   Weapon_range: 1
   Ship_type: 1
+  last_pitch_yaw_speed: {x: 0, y: 0, z: 10}
   Velocity_current: {x: 0, y: 0, z: 0}
-  Velocity_delta: {x: 0, y: 0, z: 0}
-  Max_velocity: {x: 0, y: 0, z: 0}
-  Min_velocity: {x: 0, y: 0, z: 0}
-  Max_velocity_delta: {x: 0, y: 0, z: 0}
-  Min_velocity_delta: {x: 0, y: 0, z: 0}
-  Player_id: 0
+  pitch_yaw_speed: {x: 0, y: 0, z: 0}
+  max_abs_delta_pitch_yaw_speed: {x: 45, y: 45, z: 40}
+  max_pitch_yaw_speed: {x: 90, y: 90, z: 100}
+  min_pitch_yaw_speed: {x: -90, y: -90, z: 10}
+  player: {fileID: 0}
   Momentum_ray: {fileID: 186048}
   Vision_bubble: {fileID: 179650}
   Model: {fileID: 158854}
