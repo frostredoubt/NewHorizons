@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 403242}
   - 114: {fileID: 11401094}
   m_Layer: 0
-  m_Name: Scout_ship
+  m_Name: old_scout
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -236,8 +236,10 @@ MonoBehaviour:
   Min_velocity: {x: 0, y: 0, z: 0}
   Max_velocity_delta: {x: 0, y: 0, z: 0}
   Min_velocity_delta: {x: 0, y: 0, z: 0}
+  Player_id: 0
   Momentum_ray: {fileID: 100000, guid: 66bac40d68b1fae4f9b7e84070e5afec, type: 3}
   Vision_bubble: {fileID: 0}
+  Model: {fileID: 0}
 --- !u!114 &11457550
 MonoBehaviour:
   m_ObjectHideFlags: 1

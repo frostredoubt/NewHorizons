@@ -6,6 +6,12 @@ public class PlayerCamera : NetworkBehaviour
 {
 
     /// <summary>
+    /// Ignore network behaviour.
+    /// </summary>
+    [SerializeField]
+    private bool ignoreNetworkBehaviour = false;
+
+    /// <summary>
     /// Sensitivities used for keyboard movement.
     /// </summary>
     [SerializeField]
@@ -86,7 +92,7 @@ public class PlayerCamera : NetworkBehaviour
     private void Start()
     {
         playerCamera = GetComponent<Camera>();
-        playerCamera.enabled = isLocalPlayer;
+        playerCamera.enabled = ignoreNetworkBehaviour ? true : isLocalPlayer;
         objectSelectionTrackingState = ObjectSelectionTrackingState.None;
         lastSelectedObject = null;
         return;
@@ -99,7 +105,7 @@ public class PlayerCamera : NetworkBehaviour
     [ClientCallback]
     private void Update()
     {
-        if (!isLocalPlayer) // If we're not updating a local player, return
+        if (!ignoreNetworkBehaviour && !isLocalPlayer) // If we're not updating a local player, return
         {
             return;
         }
