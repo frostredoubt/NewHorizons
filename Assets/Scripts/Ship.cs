@@ -225,4 +225,8 @@ public class Ship : NetworkBehaviour
     {
         Current_target = null;
     }
+
+	public void drawArrow(bool shouldDraw) {
+		Momentum_ray.GetComponent<LineRenderer> ().enabled = shouldDraw;
+	}
 }

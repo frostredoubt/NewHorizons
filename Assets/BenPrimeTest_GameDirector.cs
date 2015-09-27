@@ -14,14 +14,17 @@ public class BenPrimeTest_GameDirector : MonoBehaviour {
     }
 
 	public void nextTurn() {
-		selectedShip = null;
+		setSelectedShip (null);
 
         Game.singleton.local_player.BroadcastMessage("Player_start_resolution");
 	}
 	
 	public void setSelectedShip(Ship ship) {
+		if (selectedShip)
+			selectedShip.drawArrow(false);
 		selectedShip = ship;
-		if (ship != null) {
+		if (selectedShip) {
+			selectedShip.drawArrow(true);
 			BroadcastMessage("shipSelected", ship);
 		}
 	}
