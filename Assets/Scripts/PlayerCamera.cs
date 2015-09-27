@@ -94,6 +94,7 @@ public class PlayerCamera : NetworkBehaviour
         GameObject.Find("CustomNetworkMgr").GetComponent<NetworkManagerHUD>().showGUI = false;
         playerCamera = GetComponent<Camera>();
         playerCamera.enabled = isLocalPlayer;
+        GetComponent<AudioListener>().enabled = isLocalPlayer;
         objectSelectionTrackingState = ObjectSelectionTrackingState.None;
         lastSelectedObject = null;
 

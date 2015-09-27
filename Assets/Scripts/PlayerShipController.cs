@@ -13,6 +13,9 @@ public class PlayerShipController : NetworkBehaviour {
     public Vector3 max_pitch_yaw_speed = new Vector3(90.0f, 90.0f, 100.0f);
     public Vector3 min_pitch_yaw_speed = new Vector3(-90.0f, -90.0f, 10.0f);
 
+    [SyncVar]
+    public bool finishedenteringmoves;
+
     // Use this for initialization
     [ClientCallback]
 	void Start () {
@@ -26,7 +29,7 @@ public class PlayerShipController : NetworkBehaviour {
         if (!isLocalPlayer)
             return;
 
-        if (!BenPrimeTest_GameDirector.singleton)
+        f (!BenPrimeTest_GameDirector.singleton)
         {
             return;
         }
@@ -72,6 +75,7 @@ public class PlayerShipController : NetworkBehaviour {
     [Command]
     private void CmdStartResolution()
     {
-        Game.singleton.StartResolution();
+        finishedenteringmoves = true;
+        Game.singleton.StartResolution(gameObject);
     }
 }
