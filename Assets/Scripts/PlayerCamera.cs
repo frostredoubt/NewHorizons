@@ -96,6 +96,12 @@ public class PlayerCamera : NetworkBehaviour
         playerCamera.enabled = isLocalPlayer;
         objectSelectionTrackingState = ObjectSelectionTrackingState.None;
         lastSelectedObject = null;
+
+        if (isLocalPlayer)
+        {
+            Game.singleton.local_player = gameObject;
+        }
+
         return;
     }
 
