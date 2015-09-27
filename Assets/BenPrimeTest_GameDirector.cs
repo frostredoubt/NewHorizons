@@ -16,11 +16,7 @@ public class BenPrimeTest_GameDirector : MonoBehaviour {
 	public void nextTurn() {
 		selectedShip = null;
 
-        GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
-        foreach (GameObject player in players)
-        {
-            player.BroadcastMessage("Player_start_resolution");
-		}
+        Game.singleton.local_player.BroadcastMessage("Player_start_resolution");
 	}
 	
 	public void setSelectedShip(Ship ship) {
