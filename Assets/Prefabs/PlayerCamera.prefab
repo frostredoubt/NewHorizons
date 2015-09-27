@@ -93,10 +93,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c84ba9bca2294b541ba3d31351d1c8ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keyboardMovementSensitivity: {x: .25, y: 0, z: .25}
-  keyboardRotationSensitivity: {x: 0, y: 0, z: 2.5}
-  mouseRotationSensitivity: {x: 1, y: 1, z: 0}
-  objectSelectSnapDistance: 10
+  keyboardMovementSensitivity: {x: 20, y: 0, z: 20}
+  keyboardRotationSensitivity: {x: 0, y: 0, z: 100}
+  mouseRotationSensitivity: {x: 100, y: 100, z: 0}
+  objectSelectDistance: 10
+  objectSelectMoveSpeed: 5
+  objectSelectRotationSpeed: 5
   playerCamera: {fileID: 0}
 --- !u!114 &11474956
 MonoBehaviour:
@@ -190,11 +192,11 @@ Prefab:
       objectReference: {fileID: 2078236}
     - target: {fileID: 0}
       propertyPath: keyboardMovementSensitivity.x
-      value: .5
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: keyboardMovementSensitivity.z
-      value: .5
+      value: 10
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}

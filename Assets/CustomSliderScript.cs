@@ -28,8 +28,7 @@ public class CustomSliderScript : MonoBehaviour {
             director.SelectedShip.pitch_yaw_speed[vectorIndex] = slider.value;
 
 			//display the number to our players
-			float velocityNumber = director.SelectedShip.Velocity_current[vectorIndex] + slider.value;
-			numberText.text = velocityNumber.ToString();
+			numberText.text = director.SelectedShip.Velocity_current[vectorIndex].ToString() + " + " + slider.value.ToString();
 		}
 	}
 
@@ -46,17 +45,21 @@ public class CustomSliderScript : MonoBehaviour {
 		//backgroundRectTransform.sizeDelta = new Vector2(backgroundRectTransform.sizeDelta.x,
 		//  (selectedShip.Max_velocity[vectorIndex] - selectedShip.Min_velocity[vectorIndex]) * sliderDelta);
 
-        sliderDelta = backgroundRectTransform.sizeDelta.y / Mathf.Abs(max_val - min_val);
+        sliderDelta = backgroundRectTransform.sizeDelta.x / Mathf.Abs(max_val - min_val);
 
 		//find how much we can move (basically the max/min delta, capped for overal max/min)
         slider.minValue = Mathf.Max(current_val - max_abs_delta_val, min_val);
         slider.maxValue = Mathf.Min(current_val + max_abs_delta_val, max_val);
 
 		//size and position the actual interactable slider
-		rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x,
-		                                      (slider.maxValue - slider.minValue) * sliderDelta);
+		rectTransform.sizeDelta = new Vector2((slider.maxValue - slider.minValue) * sliderDelta, rectTransform.sizeDelta.y);
 
-        rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x,
-            backgroundRectTransform.anchoredPosition.y - (max_val - slider.maxValue) * sliderDelta);
+        //rectTransform.anchoredPosition = new Vector2(rectTransform.anchoredPosition.x,
+        //    backgroundRectTransform.anchoredPosition.y - (max_val - slider.maxValue) * sliderDelta);
+		/*rectTransform.anchoredPosition = new Vector2 (backgroundRectTransform.anchoredPosition.x + (selectedShip.Velocity_current[vectorIndex] - selectedShip.Min_velocity[vectorIndex]) * sliderDelta
+		                                              + slider.minValue * sliderDelta
+		                                             , rectTransform.anchoredPosition.y)*/
+        rectTransform.anchoredPosition = new Vector2(backgroundRectTransform.anchoredPosition.x + (slider.minValue - min_val) * sliderDelta
+                                                     , rectTransform.anchoredPosition.y);
 	}
 }
