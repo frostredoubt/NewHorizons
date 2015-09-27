@@ -210,6 +210,15 @@ public class PlayerCamera : NetworkBehaviour
             playerAudioSource.PlayOneShot(objectSelectAudioClip);
             lastSelectedObject = hitInfo.transform.FindChild(selectableTag);
             objectSelectionTrackingState = ObjectSelectionTrackingState.Tracking;
+
+            if (lastSelectedObject)
+            {
+                Ship ship = lastSelectedObject.GetComponentInParent<Ship>();
+                if (ship && ship.player == Game.singleton.local_player)
+                {
+                    BenPrimeTest_GameDirector.singleton.setSelectedShip(ship);
+                }
+            }
         }
 
         return;
