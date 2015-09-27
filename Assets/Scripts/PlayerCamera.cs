@@ -48,9 +48,20 @@ public class PlayerCamera : NetworkBehaviour
     private float objectSelectRotationSpeed = 5.0f;
 
     /// <summary>
+    /// The sound to play when an object is selected.
+    /// </summary>
+    [SerializeField]
+    private AudioClip objectSelectAudioClip;
+
+    /// <summary>
     /// The player camera object.
     /// </summary>
     private Camera playerCamera;
+
+    /// <summary>
+    /// The audio source attached to the player camera.
+    /// </summary>
+    private AudioSource playerAudioSource;
 
 
     /// <summary>
@@ -94,6 +105,7 @@ public class PlayerCamera : NetworkBehaviour
         GameObject.Find("CustomNetworkMgr").GetComponent<NetworkManagerHUD>().showGUI = false;
         playerCamera = GetComponent<Camera>();
         playerCamera.enabled = isLocalPlayer;
+        playerAudioSource = GetComponent<AudioSource>();
         objectSelectionTrackingState = ObjectSelectionTrackingState.None;
         lastSelectedObject = null;
 
@@ -194,6 +206,7 @@ public class PlayerCamera : NetworkBehaviour
 
         if (SelectObject() && Physics.Raycast(ray, out hitInfo, playerCamera.farClipPlane))
         {
+            playerAudioSource.PlayOneShot(objectSelectAudioClip);
             lastSelectedObject = hitInfo.transform.FindChild(selectableTag);
             objectSelectionTrackingState = ObjectSelectionTrackingState.Tracking;
         }
