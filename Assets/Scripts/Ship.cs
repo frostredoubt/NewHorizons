@@ -23,6 +23,7 @@ public class Ship : NetworkBehaviour
 
     public Type Ship_type;
 
+    [SyncVar]
 	public float health = 100.0f;
 	public string name;
 
@@ -203,13 +204,23 @@ public class Ship : NetworkBehaviour
 
             if( attack != null )
             {
-                Debug.DrawLine(transform.position, attack.gameObject.transform.position,Color.red);
-                if( Weapons_enabled )
+                RpcDrawShot(attack.gameObject);
+                if (Weapons_enabled)
+                {
+
                     Shoot_target(attack);
+                }
             }
         }
     }
 
+    [ClientRpc]
+    void RpcDrawShot(GameObject other)
+    {
+        Debug.DrawLine(transform.position, other.transform.position, Color.red, 5.0f);
+    }
+
+    [Server]
     void Shoot_target( Ship target )
     {
         target.health -= Weapon_damage;

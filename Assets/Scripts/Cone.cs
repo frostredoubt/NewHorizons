@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using UnityEngine.Networking;
 
-public class Cone : MonoBehaviour {
+public class Cone : NetworkBehaviour {
 
     public float Height = 1;
     public float Bottom_radius;
@@ -20,6 +21,7 @@ public class Cone : MonoBehaviour {
         if (update_cone)
             Create_cone();
 	}
+
     void Create_cone()
     {
         MeshFilter filter = gameObject.AddComponent<MeshFilter>();
@@ -211,25 +213,36 @@ public class Cone : MonoBehaviour {
         gameObject.GetComponent<MeshCollider>().sharedMesh = mesh;
     }
 
+    public List<Ship> targets = new List<Ship>();
+
+    [ServerCallback]
     void OnTriggerExit( Collider other )
     {
-        if (other.transform.name == "Model" && 
-                gameObject.transform.parent.GetComponent<Ship>().player != other.transform.parent.GetComponent<Ship>().player )
+        Debug.Log("exit");
+        Ship othership = other.gameObject.GetComponentInParent<Ship>();
+        if (othership)
         {
-            targets.Remove(other.gameObject.GetComponentInParent<Ship>());
+            if( Game.singleton.local_player != othership.player )
+                targets.Remove(othership);
         }
     }
 
-    public List<Ship> targets = new List<Ship>();
-
+    [ServerCallback]
     void OnTriggerEnter(Collider other)
     {
-        if (other.transform.name == "Model" &&
-                gameObject.transform.parent.GetComponent<Ship>().player != other.transform.parent.GetComponent<Ship>().player)
+        Debug.Log("enter");
+        Ship othership = other.gameObject.GetComponentInParent<Ship>();
+        if (othership && othership.player != Game.singleton.local_player)
         {
-            Debug.DrawLine(gameObject.transform.parent.position, other.transform.parent.position, Color.green);
-            targets.Add(other.gameObject.GetComponentInParent<Ship>());
-            Debug.Log(targets);
+            RpcDrawTarget(othership.gameObject);
+            targets.Add(othership);
+            Debug.Log("Ships I see: " + targets.Count);
         }
+    }
+
+    [ClientRpc]
+    void RpcDrawTarget(GameObject other)
+    {
+        Debug.DrawLine(gameObject.transform.parent.position, other.transform.parent.position, Color.green, 5.0f);
     }
 }
