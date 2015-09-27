@@ -151,4 +151,8 @@ public class Ship : NetworkBehaviour
             gameObject.transform.rotation = step;
         }
     }
+
+	public void drawArrow(bool shouldDraw) {
+		Momentum_ray.GetComponent<LineRenderer> ().enabled = shouldDraw;
+	}
 }
