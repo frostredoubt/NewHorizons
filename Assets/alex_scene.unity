@@ -139,9 +139,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92f2a7931f6e528419c2b081fdf0eadd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ScoutShips: {fileID: 106746, guid: c5ebb0dba8d803040ac56ae37816a5f3, type: 2}
-  KingShips: {fileID: 162656, guid: 9764aeb4ca180564b891aec19d9613f5, type: 2}
-  CruiserShips: {fileID: 162656, guid: 9764aeb4ca180564b891aec19d9613f5, type: 2}
+  ScoutShips: {fileID: 122932, guid: e3e0f12d6f9a01c4d89ce9939a214252, type: 2}
+  KingShips: {fileID: 159152, guid: e10986b3bb88ce64a84a80bbfd590ecd, type: 2}
+  CruiserShips: {fileID: 115968, guid: 6c001b94e936da34bace3e2e33a6e2b5, type: 2}
   My_start: {x: 0, y: 0, z: 0}
   Enemy_start: {x: 10, y: 10, z: 10}
   UX: {fileID: 416280462}
@@ -298,7 +298,7 @@ Transform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1636160761}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -10}
+  m_LocalPosition: {x: 0, y: 0, z: -5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
