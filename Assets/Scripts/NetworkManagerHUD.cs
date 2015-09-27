@@ -211,6 +211,10 @@ namespace UnityEngine.Networking
 			manager.StartHost();
 		}
 
+		public void HackJoinGame() {
+			manager.StartClient ();
+		}
+
 		public void JoinGame(string ipAddress) {
 			manager.networkAddress = ipAddress;
 			manager.StartClient(); 
