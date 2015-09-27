@@ -47,7 +47,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 468652}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: Selectable
   m_TagString: Selectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

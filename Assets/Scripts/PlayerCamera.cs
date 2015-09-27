@@ -112,7 +112,7 @@ public class PlayerCamera : NetworkBehaviour
         }
 
         GetInput();
-        //CheckForObjectSelect();
+        CheckForObjectSelect();
         UpdateCamera();
 
         // Fil: putting this here for now
