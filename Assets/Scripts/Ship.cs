@@ -153,34 +153,9 @@ public class Ship : NetworkBehaviour
         Vision_bubble.GetComponent<SphereCollider>().enabled = false;
     }
 
-//    [ServerCallback]
+    [ServerCallback]
     void FixedUpdate()
     {
-        {
-            float min = 0;
-            Ship attack = null;
-            foreach (Ship s in FiringArc.GetComponent<Cone>().targets)
-            {
-                float distance = Vector3.Distance(transform.position, s.gameObject.transform.position);
-                if (attack == null)
-                {
-                    min = distance;
-                    attack = s;
-                }
-                if (min > distance)
-                {
-                    min = distance;
-                    attack = s;
-                }
-            }
-
-            if (attack != null)
-            {
-                Debug.Log("PewPew");
-                Debug.DrawLine(transform.position, attack.gameObject.transform.position, Color.red);
-            }
-        }
-
         float elapsed_time_fraction = (Turn_update_units - Resolve_time) / Turn_update_units;
         if (do_resolve)
         {
