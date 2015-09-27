@@ -67,8 +67,8 @@ public class Ship : NetworkBehaviour
                 r.enabled = visibility;
     }
 
-    [Server]
-    public void Start_resolution(uint update_units)
+    [ClientRpc]
+    void RpcStartMoveFX()
     {
         if (!engine1.IsAlive())
         {
@@ -88,6 +88,22 @@ public class Ship : NetworkBehaviour
         }
 
         shipWhoosh.Play();
+    }
+
+    [ClientRpc]
+    void RpcStopMoveFX()
+    {
+        engine1.Stop();
+        engine2.Stop();
+        engine3.Stop();
+        engine4.Stop();
+    }
+
+    [Server]
+    public void Start_resolution(uint update_units)
+    {
+
+        RpcStartMoveFX();
 
         //Debug.Log("ship Start_resolution");
         Turn_update_units = update_units;
@@ -128,10 +144,7 @@ public class Ship : NetworkBehaviour
 
     void Finish_resolution()
     {
-        engine1.Stop();
-        engine2.Stop();
-        engine3.Stop();
-        engine4.Stop();
+        RpcStopMoveFX();
 
         do_resolve = false;
         Vision_bubble.GetComponent<SphereCollider>().enabled = false;
@@ -151,4 +164,8 @@ public class Ship : NetworkBehaviour
             gameObject.transform.rotation = step;
         }
     }
+
+	public void drawArrow(bool shouldDraw) {
+		Momentum_ray.GetComponent<LineRenderer> ().enabled = shouldDraw;
+	}
 }
