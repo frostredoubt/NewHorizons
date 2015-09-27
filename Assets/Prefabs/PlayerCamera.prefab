@@ -93,7 +93,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c84ba9bca2294b541ba3d31351d1c8ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ignoreNetworkBehaviour: 0
   keyboardMovementSensitivity: {x: 20, y: 0, z: 20}
   keyboardRotationSensitivity: {x: 0, y: 0, z: 100}
   mouseMovementSensitivity: {x: 0, y: 200, z: 0}
