@@ -207,12 +207,13 @@ public class PlayerCamera : NetworkBehaviour
 
         if (SelectObject() && Physics.Raycast(ray, out hitInfo, playerCamera.farClipPlane))
         {
-            playerAudioSource.PlayOneShot(objectSelectAudioClip);
-            lastSelectedObject = hitInfo.transform.FindChild(selectableTag);
-            objectSelectionTrackingState = ObjectSelectionTrackingState.Tracking;
+            Transform selectableChild = hitInfo.transform.FindChild(selectableTag);
 
-            if (lastSelectedObject)
+            if (selectableChild != null)
             {
+                playerAudioSource.PlayOneShot(objectSelectAudioClip);
+                lastSelectedObject = selectableChild;
+                objectSelectionTrackingState = ObjectSelectionTrackingState.Tracking;
                 Ship ship = lastSelectedObject.GetComponentInParent<Ship>();
                 if (ship && ship.player == Game.singleton.local_player)
                 {
