@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+﻿﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
@@ -38,6 +38,7 @@ public class Ship : NetworkBehaviour
     Quaternion end_rotation;
 
     private bool do_resolve = false;
+    private uint Turn_update_units;
 
     // Use this for initialization
     void Start()
@@ -49,19 +50,20 @@ public class Ship : NetworkBehaviour
 
     public void Set_model_visible( bool vis )
     {
-       // Model.GetComponent<MeshRenderer>().enabled = vis;
+        Model.GetComponent<MeshRenderer>().enabled = vis;
     }
 
     public void Set_all_visible( bool visibility )
     {
-        //foreach (Renderer r in GetComponentsInChildren<Renderer>())
-        //        r.enabled = visibility;
+        foreach (Renderer r in GetComponentsInChildren<Renderer>())
+                r.enabled = visibility;
     }
 
     [Server]
     public void Start_resolution(uint update_units)
     {
         //Debug.Log("ship Start_resolution");
+        Turn_update_units = update_units;
 
         last_pitch_yaw_speed = pitch_yaw_speed;
 
@@ -97,13 +99,6 @@ public class Ship : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        /*if (Input.GetKeyDown("[1]"))
-            Velocity_current += (Input.GetKey("left shift")) ? Vector3.right : Vector3.left;
-        else if (Input.GetKeyDown("[2]"))
-            Velocity_current += (Input.GetKey("left shift")) ? Vector3.up : Vector3.down;
-        else if (Input.GetKeyDown("[3]"))
-            Velocity_current += (Input.GetKey("left shift")) ? Vector3.forward : Vector3.back;*/
-
         LineRenderer lr = Momentum_ray.GetComponent<LineRenderer>();
         //Debug.Log(Velocity_current);
         lr.SetPosition(1, Velocity_current);
@@ -112,7 +107,7 @@ public class Ship : NetworkBehaviour
     [ServerCallback]
     void FixedUpdate()
     {
-        float elapsed_time_fraction = (20 - Resolve_time) / 20;
+        float elapsed_time_fraction = (Turn_update_units - Resolve_time) / Turn_update_units;
         if (do_resolve)
         {
             gameObject.transform.Translate(Update_step,Space.World);

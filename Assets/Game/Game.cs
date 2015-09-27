@@ -102,7 +102,7 @@ public class Game : NetworkBehaviour
     {
         foreach(GameObject ship in ships) {
             Ship shipcomp = ((Ship)ship.GetComponent("Ship"));
-            shipcomp.Start_resolution(10U);
+            shipcomp.Start_resolution(30U);
         }
     }
 
