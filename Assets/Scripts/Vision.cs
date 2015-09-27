@@ -65,7 +65,7 @@ public class Vision : MonoBehaviour {
     void OnMouseEnter()
     {
         Ship s = gameObject.transform.parent.GetComponent("Ship") as Ship;
-        if (gameObject.name == "Model" && s.player )
+        if (gameObject.name == "Model" && s.player == Game.singleton.local_player )
         {
             Vision_object.GetComponent<MeshRenderer>().enabled = true;
         }
@@ -74,7 +74,7 @@ public class Vision : MonoBehaviour {
     void OnMouseExit()
     {
         Ship s = gameObject.transform.parent.GetComponent("Ship") as Ship;
-        if ( gameObject.name == "Model" && s.player )
+        if ( gameObject.name == "Model" && s.player == Game.singleton.local_player )
         {
             Vision_object.GetComponent<MeshRenderer>().enabled = false;
         }
