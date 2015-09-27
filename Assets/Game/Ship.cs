@@ -19,6 +19,7 @@ public class Ship : MonoBehaviour
 
     //Max values
     // (Speed, Pitch, Yaw)
+    public Vector3 last_pitch_yaw_speed = new Vector3(0, 0, 10.0f);
     public Vector3 Velocity_current = new Vector3(0, 0, 0);
     public Vector3 pitch_yaw_speed;
     public Vector3 max_abs_delta_pitch_yaw_speed = new Vector3(45.0f, 45.0f, 40.0f);
@@ -58,6 +59,8 @@ public class Ship : MonoBehaviour
 
     void Start_resolution(uint update_units)
     {
+        last_pitch_yaw_speed = pitch_yaw_speed;
+
         start_rotation = gameObject.transform.rotation;
 
         Update_step = start_rotation * Velocity_current / update_units;
