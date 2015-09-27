@@ -1,4 +1,4 @@
-﻿﻿using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
@@ -49,13 +49,13 @@ public class Ship : NetworkBehaviour
 
     public void Set_model_visible( bool vis )
     {
-        Model.GetComponent<MeshRenderer>().enabled = vis;
+       // Model.GetComponent<MeshRenderer>().enabled = vis;
     }
 
     public void Set_all_visible( bool visibility )
     {
-        foreach (Renderer r in GetComponentsInChildren<Renderer>())
-                r.enabled = visibility;
+        //foreach (Renderer r in GetComponentsInChildren<Renderer>())
+        //        r.enabled = visibility;
     }
 
     [Server]

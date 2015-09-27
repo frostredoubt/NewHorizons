@@ -216,6 +216,10 @@ Prefab:
       propertyPath: m_PlayerSpawnMethod
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 11442216, guid: 2cb85cf2818edb14184cb0699acd5f98, type: 2}
+      propertyPath: showGUI
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 2cb85cf2818edb14184cb0699acd5f98, type: 2}
   m_IsPrefabParent: 0
