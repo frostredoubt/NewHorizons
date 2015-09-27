@@ -31,12 +31,16 @@ public class Vision : MonoBehaviour {
             if (my_parent != their_parent)
             {
                 Ship a = my_parent.GetComponent("Ship") as Ship;
-                Ship b = their_parent.GetComponent("Ship") as Ship;
 
-                if (a.player != b.player)
+                if (a.player == Game.singleton.local_player)
                 {
-                    b.Set_model_visible(true);
-                    Debug.Log("Seeing enemy ship");
+                    Ship b = their_parent.GetComponent("Ship") as Ship;
+
+                    if (a.player != b.player)
+                    {
+                        b.Set_model_visible(true);
+                        Debug.Log("Seeing enemy ship");
+                    }
                 }
             }
         }
@@ -51,12 +55,16 @@ public class Vision : MonoBehaviour {
             if (my_parent != their_parent)
             {
                 Ship a = my_parent.GetComponent("Ship") as Ship;
-                Ship b = their_parent.GetComponent("Ship") as Ship;
 
-                if (a.player != b.player)
+                if (a.player == Game.singleton.local_player)
                 {
-                    b.Set_model_visible(false);
-                    Debug.Log("Not seeing enemy ship");
+                    Ship b = their_parent.GetComponent("Ship") as Ship;
+
+                    if (a.player != b.player)
+                    {
+                        b.Set_model_visible(false);
+                        Debug.Log("Not seeing enemy ship");
+                    }
                 }
             }
         }

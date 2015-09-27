@@ -142,20 +142,6 @@ public class PlayerCamera : NetworkBehaviour
         Game.singleton.StartGame();
     }
 
-    public void Player_start_resolution()
-    {
-        if (isLocalPlayer)
-        {
-            CmdStartResolution();
-        }
-    }
-
-    [Command]
-    private void CmdStartResolution()
-    {
-        Game.singleton.StartResolution();
-    }
-
 
     /// <summary>
     /// Get input from various sources.

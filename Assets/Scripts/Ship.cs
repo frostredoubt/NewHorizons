@@ -1,4 +1,4 @@
-﻿﻿using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
 
@@ -22,16 +22,18 @@ public class Ship : NetworkBehaviour
 
     public Type Ship_type;
 
+	public float health = 100.0f;
+	public string name;
+
     //Max values
     // (Speed, Pitch, Yaw)
-    public Vector3 last_pitch_yaw_speed = new Vector3(0, 0, 10.0f);
-    public Vector3 Velocity_current = new Vector3(0, 0, 0);
-    public Vector3 pitch_yaw_speed;
-    public Vector3 max_abs_delta_pitch_yaw_speed = new Vector3(45.0f, 45.0f, 40.0f);
-    public Vector3 max_pitch_yaw_speed = new Vector3(90.0f, 90.0f, 100.0f);
-    public Vector3 min_pitch_yaw_speed = new Vector3(-90.0f, -90.0f, 10.0f);
 
+    [SyncVar]
+    public Vector3 Velocity_current = new Vector3(0, 0, 0);
+
+    [SyncVar]
     public GameObject player;
+
     public GameObject Momentum_ray;
     public GameObject Vision_bubble;
     public GameObject Model;
@@ -90,8 +92,6 @@ public class Ship : NetworkBehaviour
         //Debug.Log("ship Start_resolution");
         Turn_update_units = update_units;
 
-        last_pitch_yaw_speed = pitch_yaw_speed;
-
         start_rotation = gameObject.transform.rotation;
 
         Update_step = start_rotation * Velocity_current / update_units;
@@ -124,9 +124,6 @@ public class Ship : NetworkBehaviour
     // Update is called once per frame
     void Update()
     {
-        LineRenderer lr = Momentum_ray.GetComponent<LineRenderer>();
-        //Debug.Log(Velocity_current);
-        lr.SetPosition(1, Velocity_current);
     }
 
     void Finish_resolution()
@@ -152,15 +149,6 @@ public class Ship : NetworkBehaviour
 
             Quaternion step = Quaternion.Lerp(start_rotation, end_rotation, elapsed_time_fraction);
             gameObject.transform.rotation = step;
-        }
-
-        {
-            Quaternion pitchchange = Quaternion.AngleAxis(pitch_yaw_speed.x, new Vector3(1, 0, 0));
-            Quaternion yawchange = Quaternion.AngleAxis(pitch_yaw_speed.y, new Vector3(0, 0, 1));
-
-            Vector3 velocity = pitch_yaw_speed.z * (pitchchange * yawchange * (new Vector3(0, 1, 0)));
-
-            Velocity_current = velocity;
         }
     }
 }

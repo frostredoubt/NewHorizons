@@ -526,12 +526,9 @@ MonoBehaviour:
   Scout_range: 1
   Weapon_range: 1
   Ship_type: 2
-  last_pitch_yaw_speed: {x: 0, y: 0, z: 10}
+  health: 100
+  name: KINGSHIP
   Velocity_current: {x: 0, y: 0, z: 0}
-  pitch_yaw_speed: {x: 0, y: 0, z: 0}
-  max_abs_delta_pitch_yaw_speed: {x: 45, y: 45, z: 40}
-  max_pitch_yaw_speed: {x: 90, y: 90, z: 100}
-  min_pitch_yaw_speed: {x: -90, y: -90, z: 10}
   player: {fileID: 0}
   Momentum_ray: {fileID: 167244}
   Vision_bubble: {fileID: 183874}
@@ -4994,6 +4991,10 @@ Prefab:
       propertyPath: Momentum_ray
       value: 
       objectReference: {fileID: 167244}
+    - target: {fileID: 0}
+      propertyPath: name
+      value: KINGSHIP
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
   m_RootGameObject: {fileID: 159152}
