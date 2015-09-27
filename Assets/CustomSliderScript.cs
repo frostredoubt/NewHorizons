@@ -28,8 +28,7 @@ public class CustomSliderScript : MonoBehaviour {
 			director.SelectedShip.Velocity_delta[vectorIndex] = slider.value;
 
 			//display the number to our players
-			float velocityNumber = director.SelectedShip.Velocity_current[vectorIndex] + slider.value;
-			numberText.text = velocityNumber.ToString();
+			numberText.text = director.SelectedShip.Velocity_current[vectorIndex].ToString() + " + " + slider.value.ToString();
 		}
 	}
 
@@ -41,18 +40,17 @@ public class CustomSliderScript : MonoBehaviour {
 		//backgroundRectTransform.sizeDelta = new Vector2(backgroundRectTransform.sizeDelta.x,
 		//  (selectedShip.Max_velocity[vectorIndex] - selectedShip.Min_velocity[vectorIndex]) * sliderDelta);
 
-		sliderDelta = backgroundRectTransform.sizeDelta.y / (selectedShip.Max_velocity [vectorIndex] - selectedShip.Min_velocity [vectorIndex]);
+		sliderDelta = backgroundRectTransform.sizeDelta.x / (selectedShip.Max_velocity [vectorIndex] - selectedShip.Min_velocity [vectorIndex]);
 
 		//find how much we can move (basically the max/min delta, capped for overal max/min)
 		slider.minValue = -Mathf.Min(selectedShip.Velocity_current[vectorIndex] - selectedShip.Min_velocity[vectorIndex], selectedShip.Min_velocity_delta[vectorIndex]);
-		slider.maxValue = Mathf.Min(selectedShip.Max_velocity[vectorIndex] - selectedShip.Velocity_current[vectorIndex],selectedShip.Max_velocity_delta[vectorIndex]);
+		slider.maxValue = Mathf.Min(selectedShip.Max_velocity[vectorIndex] - selectedShip.Velocity_current[vectorIndex], selectedShip.Max_velocity_delta[vectorIndex]);
 
 		//size and position the actual interactable slider
-		rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x,
-		                                      (slider.maxValue - slider.minValue) * sliderDelta);
+		rectTransform.sizeDelta = new Vector2((slider.maxValue - slider.minValue) * sliderDelta, rectTransform.sizeDelta.y);
 
-		rectTransform.anchoredPosition = new Vector2 (rectTransform.anchoredPosition.x,
-		                                              backgroundRectTransform.anchoredPosition.y + slider.maxValue * sliderDelta 
-		                                              		- (selectedShip.Max_velocity[vectorIndex] - selectedShip.Velocity_current[vectorIndex]) * sliderDelta);
+		rectTransform.anchoredPosition = new Vector2 (backgroundRectTransform.anchoredPosition.x + (selectedShip.Velocity_current[vectorIndex] - selectedShip.Min_velocity[vectorIndex]) * sliderDelta
+		                                              + slider.minValue * sliderDelta
+		                                             , rectTransform.anchoredPosition.y);
 	}
 }
