@@ -20,11 +20,10 @@ public class Ship : MonoBehaviour
     //Max values
     // (Speed, Pitch, Yaw)
     public Vector3 Velocity_current = new Vector3(0, 0, 0);
-    public Vector3 Velocity_delta;
-    public Vector3 Max_velocity;
-    public Vector3 Min_velocity;
-    public Vector3 Max_velocity_delta;
-    public Vector3 Min_velocity_delta;
+    public Vector3 pitch_yaw_speed;
+    public Vector3 max_abs_delta_pitch_yaw_speed = new Vector3(45.0f, 45.0f, 40.0f);
+    public Vector3 max_pitch_yaw_speed = new Vector3(90.0f, 90.0f, 100.0f);
+    public Vector3 min_pitch_yaw_speed = new Vector3(-90.0f, -90.0f, 10.0f);
 
     public uint Player_id;
     public GameObject Momentum_ray;
@@ -36,7 +35,6 @@ public class Ship : MonoBehaviour
     Quaternion start_rotation;
     Quaternion end_rotation;
 
-    private bool shouldReset = false;
     private bool do_resolve = false;
 
     // Use this for initialization
@@ -66,12 +64,21 @@ public class Ship : MonoBehaviour
 
         Vector3 originalori = new Vector3(0, 1, 0);
 
-        Vector3 currentvecori = start_rotation * originalori;
-        Vector3 targetvecori = start_rotation * Velocity_current.normalized;
+        /* Please don't delete my scratch work comments in case this it wrong.
+         * 
+         * Love,
+         * Fil
+         */
 
-        Quaternion delta_rotation = Quaternion.FromToRotation(currentvecori, targetvecori);
+        //Vector3 currentvecori = start_rotation * originalori;
+        Quaternion fromoriginaltotarget = Quaternion.FromToRotation(originalori, Velocity_current.normalized);
+        //Vector3 targetvecori = fromoriginaltotarget * start_rotation * originalori;
 
-        end_rotation = start_rotation * delta_rotation;
+        //Quaternion delta_rotation = Quaternion.FromToRotation(currentvecori, targetvecori);
+
+        //end_rotation = start_rotation * delta_rotation;
+
+        end_rotation = start_rotation * fromoriginaltotarget;
 
         //Turn on colliders
         Vision_bubble.GetComponent<SphereCollider>().enabled = true;
@@ -91,6 +98,7 @@ public class Ship : MonoBehaviour
             Velocity_current += (Input.GetKey("left shift")) ? Vector3.forward : Vector3.back;
 
         LineRenderer lr = Momentum_ray.GetComponent<LineRenderer>();
+        Debug.Log(Velocity_current);
         lr.SetPosition(1, Velocity_current);
     }
 
@@ -111,18 +119,15 @@ public class Ship : MonoBehaviour
 
             //Check for firing opportunity
 
-            shouldReset = true;
         }
-        else
+
         {
-            //add the delta velocity and reset the delta for the next turn
-            if (shouldReset)
-            {
-                Vision_bubble.GetComponent<SphereCollider>().enabled = false;
-                Velocity_current += Velocity_delta;
-                Velocity_delta = new Vector3(0, 0, 0);
-                shouldReset = false;
-            }
+            Quaternion pitchchange = Quaternion.AngleAxis(pitch_yaw_speed.x, new Vector3(1, 0, 0));
+            Quaternion yawchange = Quaternion.AngleAxis(pitch_yaw_speed.y, new Vector3(0, 0, 1));
+
+            Vector3 velocity = pitch_yaw_speed.z * (pitchchange * yawchange * (new Vector3(0, 1, 0)));
+
+            Velocity_current = velocity;
         }
     }
 }
