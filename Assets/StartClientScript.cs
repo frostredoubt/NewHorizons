@@ -6,7 +6,7 @@ using UnityEngine.Networking;
 public class StartClientScript : MonoBehaviour {
 
 	public Text text;
-	public NetworkManagerHUD networkManagerHUD;
+	public UnityEngine.Networking.NetworkManagerHUD networkManagerHUD;
 	
 	void startTheClient() {
 		networkManagerHUD.JoinGame (text.text);

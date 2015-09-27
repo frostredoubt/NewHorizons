@@ -11,6 +11,7 @@ namespace UnityEngine.Networking
 		[SerializeField] public bool showGUI = true;
 		[SerializeField] public int offsetX;
 		[SerializeField] public int offsetY;
+		public UnityEngine.UI.Text text;
 
 		// Runtime variable
 		bool showServer = false;
@@ -212,7 +213,8 @@ namespace UnityEngine.Networking
 		}
 
 		public void HackJoinGame() {
-			manager.StartClient ();
+			manager.networkAddress = text.text;
+			manager.StartClient();
 		}
 
 		public void JoinGame(string ipAddress) {

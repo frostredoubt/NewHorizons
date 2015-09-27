@@ -250,6 +250,7 @@ MonoBehaviour:
   showGUI: 1
   offsetX: 0
   offsetY: 0
+  text: {fileID: 2122681840}
 --- !u!114 &228098289 stripped
 MonoBehaviour:
   m_PrefabParentObject: {fileID: 11412464, guid: 2cb85cf2818edb14184cb0699acd5f98,
