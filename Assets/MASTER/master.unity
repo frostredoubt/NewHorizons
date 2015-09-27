@@ -247,7 +247,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   manager: {fileID: 228098289}
-  showGUI: 1
+  showGUI: 0
   offsetX: 0
   offsetY: 0
   text: {fileID: 2122681840}
