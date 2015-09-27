@@ -4,6 +4,7 @@ using UnityEngine.Networking;
 
 public class PlayerCamera : NetworkBehaviour
 {
+
     /// <summary>
     /// Sensitivities used for keyboard movement.
     /// </summary>
@@ -26,7 +27,7 @@ public class PlayerCamera : NetworkBehaviour
     /// The distance to snap to when selecting an object.
     /// </summary>
     [SerializeField]
-    private float objectSelectDistance = 10.0f;
+    private float objectSelectDistance = 15.0f;
 
     /// <summary>
     /// The speed to use when zooming in on a selected object.
@@ -40,20 +41,37 @@ public class PlayerCamera : NetworkBehaviour
     [SerializeField]
     private float objectSelectRotationSpeed = 5.0f;
 
-
     /// <summary>
     /// The player camera object.
     /// </summary>
-    [SerializeField]
     private Camera playerCamera;
+
+
+    /// <summary>
+    /// The state of object selection tracking that the camera is currently in.
+    /// </summary>
+    private enum ObjectSelectionTrackingState
+    {
+        /// <summary>
+        /// The camera is not currently tracking towards an object.
+        /// </summary>
+        None,
+
+        /// <summary>
+        /// The camera is currently tracking the object.
+        /// </summary>
+        Tracking
+
+    }
 
     // Various private input state variables
     Vector3 keyboardMovement, keyboardRotation, mouseRotation;
     private bool mouseLeftPress, mouseMiddlePress, mouseRightPress;
     private bool mouseLeftHold, mouseMiddleHold, mouseRightHold;
     private bool mouseLeftRelease, mouseMiddleRelease, mouseRightRelease;
-    private bool movementLocked; // Whether or not movement is locked by an in-progress object selection
-    private Transform lastSelectedObject; // Any object that is currently selected to move towards
+    private ObjectSelectionTrackingState objectSelectionTrackingState; // The current state of object selection tracking
+    private Transform lastSelectedObject; // The last object that was selected
+
 
     /// <summary>
     /// The transform tag that is checked to determine whether or not an object is selectable.
@@ -69,17 +87,17 @@ public class PlayerCamera : NetworkBehaviour
     {
         playerCamera = GetComponent<Camera>();
         playerCamera.enabled = isLocalPlayer;
-        movementLocked = false;
+        objectSelectionTrackingState = ObjectSelectionTrackingState.None;
         lastSelectedObject = null;
         return;
-	}
+    }
 
-	
-	/// <summary>
+
+    /// <summary>
     /// Run an update once per game frame.
     /// </summary>
     [ClientCallback]
-	private void Update()
+    private void Update()
     {
         if (!isLocalPlayer) // If we're not updating a local player, return
         {
@@ -88,10 +106,10 @@ public class PlayerCamera : NetworkBehaviour
 
         GetInput();
         CheckForObjectSelect();
-        ApplyMovement();
+        UpdateCamera();
 
         return;
-	}
+    }
 
 
     /// <summary>
@@ -99,7 +117,7 @@ public class PlayerCamera : NetworkBehaviour
     /// </summary>
     private void GetInput()
     {
-        if (movementLocked) // If movement is locked, there's no need to check input
+        if (objectSelectionTrackingState != ObjectSelectionTrackingState.None) // Ignore input while tracking
         {
             return;
         }
@@ -134,7 +152,7 @@ public class PlayerCamera : NetworkBehaviour
     /// </summary>
     private void CheckForObjectSelect()
     {
-        if (movementLocked) // If we're in the process of zooming in on a selected object, disallow new selections
+        if (objectSelectionTrackingState != ObjectSelectionTrackingState.None) // Ignore selection while tracking
         {
             return;
         }
@@ -145,7 +163,7 @@ public class PlayerCamera : NetworkBehaviour
         if (SelectObject() && Physics.Raycast(ray, out hitInfo, playerCamera.farClipPlane))
         {
             lastSelectedObject = hitInfo.transform.FindChild(selectableTag);
-            movementLocked = true;
+            objectSelectionTrackingState = ObjectSelectionTrackingState.Tracking;
         }
 
         return;
@@ -155,48 +173,110 @@ public class PlayerCamera : NetworkBehaviour
     /// <summary>
     /// Apply the movement determined from user input to the camera.
     /// </summary>
-    /// <param name="movement">The movement vector to apply.</param>
-    private void ApplyMovement()
+    private void UpdateCamera()
     {
-        if (movementLocked)
+        switch (objectSelectionTrackingState)
         {
-            if (lastSelectedObject == null) // Realistically this should never happen, but just in case...
-            {
-                movementLocked = false;
-                return;
-            }
+            case ObjectSelectionTrackingState.None:
+                MoveAndRotateCamera();
+                break;
 
-            // Rotate our object towards the selected object
-            Quaternion lastSelectedObjectRotation = transform.rotation;
-            transform.rotation = Quaternion.Slerp(transform.rotation,
-                Quaternion.LookRotation(lastSelectedObject.position - transform.position),
-                objectSelectRotationSpeed * Time.deltaTime);
-            
-            if (lastSelectedObjectRotation == transform.rotation) // Once we are finished rotating, unlock movement
-            {
-                movementLocked = false;
-            }
-        }
-        else
-        {
-            // Translate the camera's movement
-            Vector3 cameraTranslation = keyboardMovement;
-            cameraTranslation.Scale(keyboardMovementSensitivity);
-            transform.Translate(Time.deltaTime * cameraTranslation);
+            case ObjectSelectionTrackingState.Tracking:
+                if (lastSelectedObject == null) // If somehow we aren't tracking anything, abort tracking
+                {
+                    goto default;
+                }
+                bool finishedRotating = RotateTowardsSelectedObject();
+                bool finishedMoving = MoveTowardsSelectedObject();
 
-            // Rotate the camera's movement
-            Vector3 cameraRotation = keyboardRotation;
-            cameraRotation.Scale(keyboardRotationSensitivity);
-            if (TiltPanCamera())
-            {
-                Vector3 cameraMouseRotation = mouseRotation;
-                cameraMouseRotation.Scale(mouseRotationSensitivity);
-                cameraRotation += cameraMouseRotation;
-            }
-            transform.Rotate(Time.deltaTime * cameraRotation);
+                if (finishedRotating && finishedMoving)
+                {
+                    objectSelectionTrackingState = ObjectSelectionTrackingState.None;
+                }
+                break;
+
+            default: // Something crazy happened, about any tracking
+                objectSelectionTrackingState = ObjectSelectionTrackingState.None;
+                break;
         }
 
         return;
+    }
+
+
+    /// <summary>
+    /// Apply movement and rotation directly to the camera based on the user's input.
+    /// </summary>
+    private void MoveAndRotateCamera()
+    {
+        // Translate the camera's movement
+        Vector3 cameraTranslation = keyboardMovement;
+        cameraTranslation.Scale(keyboardMovementSensitivity);
+        transform.Translate(Time.deltaTime * cameraTranslation);
+
+        // Rotate the camera's movement
+        Vector3 cameraRotation = keyboardRotation;
+        cameraRotation.Scale(keyboardRotationSensitivity);
+        if (TiltPanCamera())
+        {
+            Vector3 cameraMouseRotation = mouseRotation;
+            cameraMouseRotation.Scale(mouseRotationSensitivity);
+            cameraRotation += cameraMouseRotation;
+        }
+        transform.Rotate(Time.deltaTime * cameraRotation);
+
+        return;
+    }
+
+    /// <summary>
+    /// Rotate the camera towards a selected object.
+    /// </summary>
+    /// <returns>A boolean representing whether or not the rotation has completed.</returns>
+    private bool RotateTowardsSelectedObject()
+    {
+        // Rotate our object towards the selected object
+        Quaternion lastCameraRotation = transform.rotation;
+        transform.rotation = Quaternion.Slerp(transform.rotation,
+            Quaternion.LookRotation(lastSelectedObject.position - transform.position),
+            objectSelectRotationSpeed * Time.deltaTime);
+
+        return (transform.rotation == lastCameraRotation);
+    }
+
+
+    /// <summary>
+    /// Move the camera along a ray towards the selected object.
+    /// </summary>
+    /// <returns>A boolean representing whether or not the movement has completed.</returns>
+    private bool MoveTowardsSelectedObject()
+    {
+        // Set the upper bound for stopping
+        float objectSelectDistanceLower = objectSelectDistance - 1.0f;
+        if (objectSelectDistanceLower < 0.0f)
+        {
+            objectSelectDistanceLower = 0.0f;
+        }
+
+        // Set the lower bound for stopping
+        float objectSelectDistanceUpper = objectSelectDistance + 1.0f;
+
+        Vector3 objectDistance = (lastSelectedObject.transform.position - transform.position);
+        float objectMagnitude = objectDistance.magnitude;
+        if (objectMagnitude < objectSelectDistanceLower)
+        {
+            objectDistance *= -1.0f;
+        }
+        else if (objectMagnitude <= objectSelectDistanceUpper)
+        {
+            return true;
+        }
+
+        Ray ray = new Ray(transform.position, objectDistance.normalized);
+        float moveModifier = objectMagnitude / 2.0f;
+        transform.Translate(ray.direction * objectSelectMoveSpeed * moveModifier * Time.deltaTime, Space.World);
+
+        float newObjectMagnitude = (lastSelectedObject.transform.position - transform.position).magnitude;
+        return (newObjectMagnitude >= objectSelectDistanceLower && newObjectMagnitude <= objectSelectDistanceUpper);
     }
 
 

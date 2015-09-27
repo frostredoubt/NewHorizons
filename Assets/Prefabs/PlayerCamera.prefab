@@ -96,10 +96,9 @@ MonoBehaviour:
   keyboardMovementSensitivity: {x: 20, y: 0, z: 20}
   keyboardRotationSensitivity: {x: 0, y: 0, z: 100}
   mouseRotationSensitivity: {x: 100, y: 100, z: 0}
-  objectSelectDistance: 10
+  objectSelectDistance: 15
   objectSelectMoveSpeed: 5
   objectSelectRotationSpeed: 5
-  playerCamera: {fileID: 0}
 --- !u!114 &11474956
 MonoBehaviour:
   m_ObjectHideFlags: 1
