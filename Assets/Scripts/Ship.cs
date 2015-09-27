@@ -139,7 +139,7 @@ public class Ship : NetworkBehaviour
 
         //Turn on colliders
         Vision_bubble.GetComponent<SphereCollider>().enabled = true;
-        FiringArc.GetComponent<MeshCollider>().enabled = true;
+        RpcSetFiringArcMeshEnabled(true);
 
         Resolve_time = update_units;
         do_resolve = true;
@@ -156,7 +156,13 @@ public class Ship : NetworkBehaviour
 
         do_resolve = false;
         Vision_bubble.GetComponent<SphereCollider>().enabled = false;
-        FiringArc.GetComponent<MeshCollider>().enabled = false;
+        RpcSetFiringArcMeshEnabled(false);
+    }
+
+    [ClientRpc]
+    void RpcSetFiringArcMeshEnabled(bool enabled)
+    {
+        FiringArc.GetComponent<MeshCollider>().enabled = enabled;
     }
 
     [ServerCallback]
