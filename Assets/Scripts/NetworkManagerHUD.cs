@@ -11,6 +11,7 @@ namespace UnityEngine.Networking
 		[SerializeField] public bool showGUI = true;
 		[SerializeField] public int offsetX;
 		[SerializeField] public int offsetY;
+		public UnityEngine.UI.Text text;
 
 		// Runtime variable
 		bool showServer = false;
@@ -205,6 +206,20 @@ namespace UnityEngine.Networking
 					ypos += spacing;
 				}
 			}
+		}
+
+		public void StartGame() {
+			manager.StartHost();
+		}
+
+		public void HackJoinGame() {
+			manager.networkAddress = text.text;
+			manager.StartClient();
+		}
+
+		public void JoinGame(string ipAddress) {
+			manager.networkAddress = ipAddress;
+			manager.StartClient(); 
 		}
 	}
 };
