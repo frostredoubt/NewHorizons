@@ -212,8 +212,8 @@ namespace UnityEngine.Networking
 		}
 
 		public void JoinGame(string ipAddress) {
-			manager.StartClient(); 
 			manager.networkAddress = ipAddress;
+			manager.StartClient(); 
 		}
 	}
 };
