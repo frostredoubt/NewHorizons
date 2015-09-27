@@ -43,6 +43,7 @@ public class Ship : NetworkBehaviour
 
     private bool do_resolve = false;
     private uint Turn_update_units;
+    private AudioSource shipWhoosh;
 
     // Use this for initialization
     void Start()
@@ -50,6 +51,7 @@ public class Ship : NetworkBehaviour
         Momentum_ray = transform.FindChild("Momentum").gameObject;
         Vision_bubble = transform.FindChild("Vision").gameObject;
         Model = transform.FindChild("Model").gameObject;
+        shipWhoosh = transform.FindChild("ShipWhoosh").GetComponent<AudioSource>();
     }
 
     public void Set_model_visible( bool vis )
@@ -82,6 +84,8 @@ public class Ship : NetworkBehaviour
         {
             engine4.Play();
         }
+
+        shipWhoosh.Play();
 
         //Debug.Log("ship Start_resolution");
         Turn_update_units = update_units;
