@@ -64,19 +64,19 @@ public class Vision : MonoBehaviour {
 
     void OnMouseEnter()
     {
-        /*Ship s = gameObject.transform.parent.GetComponent("Ship") as Ship;
-        if (gameObject.name == "Model" && s.player == )
+        Ship s = gameObject.transform.parent.GetComponent("Ship") as Ship;
+        if (gameObject.name == "Model" && s.player )
         {
             Vision_object.GetComponent<MeshRenderer>().enabled = true;
-        }*/
+        }
     }
 
     void OnMouseExit()
     {
-        /*Ship s = gameObject.transform.parent.GetComponent("Ship") as Ship;
-        if ( gameObject.name == "Model" && s.Player_id == 1 )
+        Ship s = gameObject.transform.parent.GetComponent("Ship") as Ship;
+        if ( gameObject.name == "Model" && s.player )
         {
             Vision_object.GetComponent<MeshRenderer>().enabled = false;
-        }*/
+        }
     }
 }
