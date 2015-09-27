@@ -138,7 +138,7 @@ public class Ship : NetworkBehaviour
         end_rotation = start_rotation * fromoriginaltotarget;
 
         //Turn on colliders
-        Vision_bubble.GetComponent<SphereCollider>().enabled = true;
+        RpcSetVisionColliderEnabled(true);
         RpcSetFiringArcMeshEnabled(true);
 
         Resolve_time = update_units;
@@ -155,8 +155,14 @@ public class Ship : NetworkBehaviour
         RpcStopMoveFX();
 
         do_resolve = false;
-        Vision_bubble.GetComponent<SphereCollider>().enabled = false;
+        RpcSetVisionColliderEnabled(false);
         RpcSetFiringArcMeshEnabled(false);
+    }
+
+    [ClientRpc]
+    void RpcSetVisionColliderEnabled(bool enabled)
+    {
+        Vision_bubble.GetComponent<SphereCollider>().enabled = enabled;
     }
 
     [ClientRpc]
