@@ -50,7 +50,7 @@ public class Game : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-        SpawnShip(true, new Vector3(0, 0, 100), Ship.Type.SCOUT);
+        SpawnShip(true, new Vector3(0, 0, 100), Ship.Type.CRUISER);
         SpawnShip(false, new Vector3(0, 100, 100), Ship.Type.SCOUT);
         SpawnShip(false, new Vector3(0, 200, 100), Ship.Type.SCOUT);
     }
