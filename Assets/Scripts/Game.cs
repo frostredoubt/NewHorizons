@@ -35,8 +35,9 @@ public class Game : NetworkBehaviour
 
             GameObject[] players = GameObject.FindGameObjectsWithTag("Player");
 
-            if(players.Length > 0)
-                SpawnShip(players[0], new Vector3(-11, 10, 11), Ship.Type.SCOUT);
+            int count = 0;
+            foreach ( GameObject player in players )
+                SpawnShip(player, new Vector3(-11, 10+(count+=10), 11), Ship.Type.SCOUT);
 
             game_started = true;
         }
