@@ -153,7 +153,7 @@ public class Ship : NetworkBehaviour
         Vision_bubble.GetComponent<SphereCollider>().enabled = false;
     }
 
-//    [ServerCallback]
+    [ServerCallback]
     void FixedUpdate()
     {
         float elapsed_time_fraction = (Turn_update_units - Resolve_time) / Turn_update_units;
