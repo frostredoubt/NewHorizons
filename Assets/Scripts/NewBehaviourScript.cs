@@ -12,8 +12,15 @@ public class NewBehaviourScript : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown("space")) { 
-            if (!ps.IsAlive()) ps.Play();
+        if (Input.GetKeyDown("space")) {
+            if (!ps.IsAlive())
+            {
+                ps.Play();
+            }
         }
-	}
+        if (Input.GetKeyUp("space"))
+        {
+            ps.Stop();
+        }
+    }
 }
