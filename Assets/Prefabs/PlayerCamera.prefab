@@ -96,6 +96,7 @@ MonoBehaviour:
   ignoreNetworkBehaviour: 0
   keyboardMovementSensitivity: {x: 20, y: 0, z: 20}
   keyboardRotationSensitivity: {x: 0, y: 0, z: 100}
+  mouseMovementSensitivity: {x: 0, y: 200, z: 0}
   mouseRotationSensitivity: {x: 100, y: 100, z: 0}
   objectSelectDistance: 15
   objectSelectMoveSpeed: 5
