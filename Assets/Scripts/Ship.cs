@@ -35,6 +35,9 @@ public class Ship : NetworkBehaviour
     [SyncVar]
     public GameObject player;
 
+    public Vector3 last_pitch_yaw_speed = new Vector3(0, 0, 10.0f);
+    public Vector3 pitch_yaw_speed;
+
     public GameObject Momentum_ray;
     public GameObject Vision_bubble;
     public GameObject Model;
