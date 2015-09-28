@@ -26,10 +26,12 @@ public class CustomSliderScript : MonoBehaviour {
 		if (director && director.SelectedShip) {
             //update the delta vector
             //PlayerShipController shipcontroller = Game.singleton.local_player.GetComponentInChildren<PlayerShipController>();
-            director.SelectedShip.pitch_yaw_speed[vectorIndex] = slider.value;
+			director.SelectedShip.pitch_yaw_speed[vectorIndex] = slider.value;
 
 			//display the number to our players
-            numberText.text = director.SelectedShip.last_pitch_yaw_speed[vectorIndex].ToString() + " -> " + slider.value.ToString();
+			float currentDelta = slider.value - director.SelectedShip.last_pitch_yaw_speed[vectorIndex];
+			string addition = slider.value < 0 ? " - " : " + ";
+			numberText.text = director.SelectedShip.last_pitch_yaw_speed[vectorIndex].ToString() + addition + Mathf.Abs(currentDelta).ToString();
 		}
 	}
 
