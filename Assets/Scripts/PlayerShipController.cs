@@ -65,11 +65,6 @@ public class PlayerShipController : NetworkBehaviour {
     {
         if (isLocalPlayer)
         {
-            Ship ship = BenPrimeTest_GameDirector.singleton.SelectedShip;
-
-            if(ship)
-                ship.last_pitch_yaw_speed = ship.pitch_yaw_speed;
-
             CmdStartResolution();
         }
     }

@@ -110,6 +110,7 @@ public class Ship : NetworkBehaviour
     [Server]
     public void Start_resolution(uint update_units)
     {
+		last_pitch_yaw_speed = pitch_yaw_speed;
 
         RpcStartMoveFX();
 

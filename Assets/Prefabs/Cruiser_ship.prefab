@@ -421,7 +421,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 115968}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -90.488678, y: 64.4635696, z: 58.9319305}
+  m_LocalPosition: {x: 116.550575, y: 35.9829941, z: -265.960907}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 402836}
@@ -1005,6 +1005,8 @@ MonoBehaviour:
   name: CRUISER CLASS YUMA 12
   Velocity_current: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
+  last_pitch_yaw_speed: {x: 0, y: 0, z: 10}
+  pitch_yaw_speed: {x: 0, y: 0, z: 0}
   Momentum_ray: {fileID: 186048}
   Vision_bubble: {fileID: 179650}
   Model: {fileID: 158854}
@@ -1065,7 +1067,7 @@ LineRenderer:
   - {x: 0, y: 0, z: 0}
   m_Parameters:
     startWidth: 1
-    endWidth: 0
+    endWidth: 1
     m_StartColor:
       serializedVersion: 2
       rgba: 4294967295

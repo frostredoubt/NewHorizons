@@ -36,14 +36,11 @@ public class CustomSliderScript : MonoBehaviour {
 	void shipSelected(Ship selectedShip) {
         PlayerShipController shipcontroller = Game.singleton.local_player.GetComponentInChildren<PlayerShipController>();
 
-        float current_val = director.SelectedShip.pitch_yaw_speed[vectorIndex];
-        float last_val = director.SelectedShip.last_pitch_yaw_speed[vectorIndex];
+        float current_val = selectedShip.pitch_yaw_speed[vectorIndex];
+        float last_val = selectedShip.last_pitch_yaw_speed[vectorIndex];
         float min_val = shipcontroller.min_pitch_yaw_speed[vectorIndex];
         float max_val = shipcontroller.max_pitch_yaw_speed[vectorIndex];
         float max_abs_delta_val = shipcontroller.max_abs_delta_pitch_yaw_speed[vectorIndex];
-
-		//we've selected a ship! so build an appropriate slider
-        slider.value = current_val;
 
 		//set the height of the background of the slider (max - min)
 		//backgroundRectTransform.sizeDelta = new Vector2(backgroundRectTransform.sizeDelta.x,
@@ -54,6 +51,9 @@ public class CustomSliderScript : MonoBehaviour {
 		//find how much we can move (basically the max/min delta, capped for overal max/min)
 		slider.minValue = Mathf.Max(last_val - max_abs_delta_val, min_val);
 		slider.maxValue = Mathf.Min(last_val + max_abs_delta_val, max_val);
+
+		//we've selected a ship! so build an appropriate slider
+		slider.value = current_val;
 
 		//size and position the actual interactable slider
 		rectTransform.sizeDelta = new Vector2((slider.maxValue - slider.minValue) * sliderDelta, rectTransform.sizeDelta.y);
