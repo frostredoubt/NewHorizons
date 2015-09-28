@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using UnityEngine.Networking;
+using UnityEngine.UI;
 
 public class BenPrimeTest_GameDirector : MonoBehaviour {
 
@@ -14,6 +15,8 @@ public class BenPrimeTest_GameDirector : MonoBehaviour {
 	private Ship selectedShip;
 	public Ship SelectedShip { get { return selectedShip; } }
 
+	public Canvas pauseCanvas;
+
     public void Start() {
         singleton = this;
         gameDirectorAudioSource = GetComponent<AudioSource>();
@@ -26,6 +29,9 @@ public class BenPrimeTest_GameDirector : MonoBehaviour {
 	}
 	
 	public void setSelectedShip(Ship ship) {
+		if (pauseCanvas.enabled)
+			return;
+
 		if (selectedShip)
 			selectedShip.drawArrow(false);
 		selectedShip = ship;
