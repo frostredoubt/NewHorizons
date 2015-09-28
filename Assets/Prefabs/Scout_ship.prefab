@@ -131,6 +131,7 @@ GameObject:
   - 114: {fileID: 11452150}
   - 23: {fileID: 2378084}
   - 64: {fileID: 6446060}
+  - 114: {fileID: 11424614}
   m_Layer: 0
   m_Name: FiringArc
   m_TagString: Untagged
@@ -647,7 +648,7 @@ MonoBehaviour:
   engine2: {fileID: 19813462}
   engine3: {fileID: 19815728}
   engine4: {fileID: 19854858}
-  Weapons_enabled: 0
+  Weapons_enabled: 1
   Scout_range: 1
   Weapon_range: 1
   Weapon_damage: 1
@@ -656,6 +657,8 @@ MonoBehaviour:
   name: SCOUT CLASS GAMMA 9
   Velocity_current: {x: 0, y: 0, z: 0}
   player: {fileID: 0}
+  last_pitch_yaw_speed: {x: 0, y: 0, z: 10}
+  pitch_yaw_speed: {x: 0, y: 0, z: 0}
   Momentum_ray: {fileID: 196184}
   Vision_bubble: {fileID: 152502}
   Model: {fileID: 190472}
@@ -671,6 +674,38 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 199b90882ac627a4aae7fefe1bff448a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &11424614
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 171672}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 372142912, guid: 870353891bb340e2b2a9c8707e7419ba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_SceneId:
+    m_Value: 0
+  m_AssetId:
+    i0: 227
+    i1: 224
+    i2: 241
+    i3: 45
+    i4: 111
+    i5: 154
+    i6: 1
+    i7: 196
+    i8: 216
+    i9: 156
+    i10: 233
+    i11: 147
+    i12: 154
+    i13: 33
+    i14: 66
+    i15: 82
+  m_ServerOnly: 0
+  m_LocalPlayerAuthority: 0
 --- !u!114 &11448060
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -5274,6 +5309,10 @@ Prefab:
     - target: {fileID: 0}
       propertyPath: m_ReceiveShadows
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: Weapons_enabled
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 0}
