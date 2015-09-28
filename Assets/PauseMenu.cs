@@ -11,6 +11,7 @@ public class PauseMenu : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		pauseCanvas.enabled = false;
+		HUDCanvas.enabled = false;
 	}
 	
 	public void pauseGame() {

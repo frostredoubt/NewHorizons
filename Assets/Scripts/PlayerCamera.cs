@@ -135,10 +135,10 @@ public class PlayerCamera : NetworkBehaviour
         UpdateCamera();
 
         // Fil: putting this here for now
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            CmdStartGame();
-        }
+        //if (Input.GetKeyDown(KeyCode.Return))
+        //{
+        //    CmdStartGame();
+        //}
 
         if (Input.GetKeyDown(KeyCode.F1))
         {
@@ -357,5 +357,9 @@ public class PlayerCamera : NetworkBehaviour
     {
         return mouseRightHold;
     }
+
+	public void StartGame() {
+		CmdStartGame();
+	}
 
 }
